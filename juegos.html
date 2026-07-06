@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juegos Interactivos · El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+/* ===== GAMES PAGE STYLES ===== */
+.juegos-hero {
+  background: var(--dark);
+  padding: 140px 10vw 80px;
+  position: relative;
+  overflow: hidden;
+}
+.juegos-hero .hero-pattern {
+  position: absolute; inset: 0; opacity: .06;
+  background-image: url("img/pattern.svg");
+  background-size: 260px 260px; animation: patternDrift 50s linear infinite;
+}
+.juegos-hero-content { position: relative; z-index: 2; }
+.juegos-hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: .68rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 20px; font-weight: 500;
+}
+.juegos-hero-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--gold); }
+.juegos-hero-title {
+  font-weight: 700; font-size: clamp(2.4rem,5vw,4.5rem);
+  line-height: 1.05; color: var(--white); margin-bottom: 18px;
+}
+.juegos-hero-title span { display:block; font-weight:300; color: var(--gold-light); }
+.juegos-hero-sub {
+  font-size: .95rem; color: rgba(253,250,246,.55); max-width: 540px;
+  line-height: 1.8; font-weight: 300;
+}
+
+/* ===== GAME SELECTOR ===== */
+.games-selector-section { background: var(--dark); padding: 0 10vw 56px; }
+.games-selector {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+}
+.game-tab {
+  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+  padding: 24px 20px; text-align: left; color: var(--white); cursor: none;
+  transition: background .3s, border-color .3s; position: relative; overflow: hidden;
+  font-family: var(--font);
+}
+.game-tab::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+  background: linear-gradient(to right, var(--terra), var(--gold));
+  transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease-out);
+}
+.game-tab:hover { background: rgba(255,255,255,.07); border-color: rgba(185,145,124,.2); }
+.game-tab:hover::after { transform: scaleX(1); }
+.game-tab.active { background: rgba(131,60,48,.18); border-color: rgba(131,60,48,.4); }
+.game-tab.active::after { transform: scaleX(1); }
+.tab-num { display:block; font-size: 2.2rem; font-weight: 700; color: rgba(185,145,124,.18); line-height:1; margin-bottom:10px; transition: color .3s; }
+.game-tab:hover .tab-num, .game-tab.active .tab-num { color: rgba(185,145,124,.4); }
+.tab-icon { display:block; margin-bottom: 8px; width:22px; height:22px; color: var(--gold); }
+.tab-name { display:block; font-size: .78rem; font-weight: 600; letter-spacing: .06em; color: var(--white); margin-bottom:4px; }
+.tab-type { display:block; font-size: .62rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+
+/* ===== GAME DISPLAY ===== */
+.game-display-section { background: var(--bg); padding: 72px 10vw; min-height: 520px; }
+.game-panel { display: none; }
+.game-panel.active { display: block; }
+.game-header { margin-bottom: 36px; }
+.game-title-row { display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:8px; }
+.game-title { font-weight: 700; font-size: clamp(1.4rem,2.5vw,2rem); color: var(--dark); }
+.game-desc { font-size: .9rem; color: var(--dark-mid); line-height: 1.7; max-width: 600px; font-weight: 300; }
+.game-score-badge {
+  background: var(--dark); color: var(--gold-light);
+  padding: 8px 18px; font-size: .72rem; letter-spacing: .1em; font-weight: 600;
+  white-space: nowrap;
+}
+.btn-reset {
+  padding: 10px 22px; border: 1px solid rgba(131,60,48,.35); color: var(--terra);
+  font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; font-weight: 600;
+  cursor: none; font-family: var(--font); transition: background .3s, color .3s, border-color .3s;
+}
+.btn-reset:hover { background: var(--terra); color: var(--white); border-color: var(--terra); }
+.btn-check {
+  padding: 12px 28px; background: var(--dark); color: var(--gold-light);
+  font-size: .72rem; letter-spacing: .15em; text-transform: uppercase; font-weight: 600;
+  cursor: none; font-family: var(--font); border: none; transition: background .3s;
+}
+.btn-check:hover { background: var(--terra); }
+.game-controls { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:28px; }
+
+/* ===== GAME 1: PAIRWISE CRONOLOGÍA ===== */
+.pair-progress { display:flex; gap:4px; margin-bottom:24px; }
+.pair-dot { flex:1; height:3px; background:var(--bg-dark); transition:background .4s; }
+.pair-dot.done-correct { background:#4a9b6f; }
+.pair-dot.done-wrong { background:#c0392b; }
+.pair-dot.current { background:var(--terra); }
+.pair-q-label { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--terra); font-weight:600; margin-bottom:16px; }
+.pair-prompt { font-size:1.05rem; font-weight:600; color:var(--dark); margin-bottom:24px; }
+.pair-cards { display:grid; grid-template-columns:1fr auto 1fr; gap:16px; align-items:center; margin-bottom:16px; }
+.pair-card {
+  padding:28px 24px; border:1.5px solid var(--bg-dark); background:var(--white);
+  cursor:none; transition:border-color .25s, background .25s, transform .2s;
+  text-align:center; font-family:var(--font); width:100%;
+}
+.pair-card:hover:not(:disabled) { border-color:var(--gold); background:#fefcfa; transform:translateY(-3px); }
+.pair-card.selected-correct { border-color:#4a9b6f; background:rgba(74,155,111,.1); pointer-events:none; }
+.pair-card.selected-wrong { border-color:#c0392b; background:rgba(192,57,43,.08); pointer-events:none; }
+.pair-card.revealed-correct { border-color:#4a9b6f; background:rgba(74,155,111,.06); pointer-events:none; }
+.pair-card:disabled { pointer-events:none; }
+.pair-card-text { font-size:.88rem; color:var(--dark); line-height:1.55; font-weight:500; }
+.pair-card-year { font-size:1.5rem; font-weight:700; color:var(--terra); margin-top:14px; display:none; }
+.pair-card-year.show { display:block; }
+.pair-vs { font-size:.72rem; font-weight:700; letter-spacing:.15em; color:rgba(30,61,71,.3); text-align:center; white-space:nowrap; }
+.pair-feedback { font-size:.88rem; padding:12px 16px; display:none; line-height:1.5; }
+.pair-feedback.show { display:block; }
+.timeline-feedback { font-size: .85rem; line-height: 1.6; padding: 14px 18px; margin-top: 8px; display: none; }
+.timeline-feedback.show { display: block; }
+.feedback-correct { background: rgba(74,155,111,.12); color: #2d7a52; border-left: 3px solid #4a9b6f; }
+.feedback-wrong { background: rgba(192,57,43,.08); color: #9b2d2d; border-left: 3px solid #c0392b; }
+
+/* ===== GAME 2: VERDADERO O FALSO ===== */
+.vof-progress { display:flex; gap:6px; margin-bottom:28px; }
+.vof-dot { width:8px; height:8px; border-radius:50%; background: var(--bg-dark); transition: background .4s; }
+.vof-dot.done-correct { background: #4a9b6f; }
+.vof-dot.done-wrong { background: #c0392b; }
+.vof-dot.current { background: var(--terra); }
+.vof-question-num { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--terra); font-weight: 600; margin-bottom: 12px; }
+.vof-question-text { font-size: 1.1rem; font-weight: 600; color: var(--dark); line-height: 1.5; margin-bottom: 28px; max-width: 620px; }
+.vof-buttons { display: flex; gap: 12px; }
+.btn-vof {
+  flex: 1; max-width: 160px; padding: 18px 24px; font-family: var(--font);
+  font-size: .88rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  cursor: none; border: 2px solid; transition: background .25s, color .25s, border-color .25s;
+}
+.btn-vof-v { border-color: #4a9b6f; color: #4a9b6f; background: transparent; }
+.btn-vof-v:hover { background: #4a9b6f; color: white; }
+.btn-vof-f { border-color: #c0392b; color: #c0392b; background: transparent; }
+.btn-vof-f:hover { background: #c0392b; color: white; }
+.btn-vof:disabled { opacity: .45; pointer-events: none; }
+.vof-feedback { margin-top: 20px; padding: 14px 18px; font-size: .88rem; line-height: 1.6; display: none; }
+.vof-feedback.show { display: block; }
+.vof-result { text-align: center; padding: 48px 24px; display: none; }
+.vof-result.show { display: block; }
+.vof-result-score { font-size: 4rem; font-weight: 700; color: var(--terra); line-height:1; }
+.vof-result-label { font-size: 1rem; color: var(--dark-mid); margin: 8px 0 24px; }
+.vof-result-msg { font-size: .9rem; color: var(--dark-mid); max-width: 400px; margin: 0 auto 24px; line-height:1.7; font-weight:300; }
+
+/* ===== GAME 3: MATCHING ===== */
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.match-col { display: flex; flex-direction: column; gap: 8px; }
+.match-col-label { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--terra); font-weight: 600; margin-bottom: 4px; }
+.match-item {
+  padding: 13px 16px; border: 1.5px solid var(--bg-dark); background: var(--white);
+  cursor: none; font-size: .85rem; color: var(--dark); line-height: 1.4;
+  transition: border-color .25s, background .25s; user-select: none;
+}
+.match-item:hover { border-color: var(--gold); background: #fefcfa; }
+.match-item.selected { border-color: var(--terra); background: rgba(131,60,48,.07); }
+.match-item.matched-correct { border-color: #4a9b6f; background: rgba(74,155,111,.08); pointer-events: none; color: #2d7a52; font-weight:500; }
+.match-item.matched-wrong { border-color: #c0392b; background: rgba(192,57,43,.08); }
+.match-term { font-weight: 600; }
+.match-score-row { display:flex; align-items:center; gap:16px; margin-top:20px; font-size:.85rem; color:var(--dark-mid); }
+
+/* ===== GAME 4: QUIEN SOY ===== */
+.qs-figure-progress { display:flex; gap:8px; margin-bottom:24px; }
+.qs-fig-dot { width:10px; height:10px; border-radius:50%; background:var(--bg-dark); transition:background .4s; }
+.qs-fig-dot.active { background:var(--terra); }
+.qs-fig-dot.done { background:var(--dark); }
+.qs-clues { margin-bottom: 24px; }
+.qs-clue {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 12px 0; border-bottom: 1px solid var(--bg-dark);
+  opacity: 0; max-height: 0; overflow: hidden; transition: opacity .5s, max-height .5s;
+}
+.qs-clue.revealed { opacity: 1; max-height: 80px; }
+.qs-clue-num { font-size: .7rem; font-weight: 700; color: var(--terra); width: 24px; flex-shrink:0; padding-top:2px; }
+.qs-clue-text { font-size: .9rem; color: var(--dark); line-height: 1.5; }
+.qs-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.btn-qs-option {
+  padding: 13px 16px; border: 1.5px solid var(--bg-dark); background: var(--white);
+  font-family: var(--font); font-size: .85rem; color: var(--dark); cursor: none;
+  text-align: left; transition: border-color .25s, background .25s; line-height: 1.4;
+}
+.btn-qs-option:hover { border-color: var(--gold); background: #fefcfa; }
+.btn-qs-option.correct { border-color: #4a9b6f; background: rgba(74,155,111,.1); color:#2d7a52; font-weight:600; }
+.btn-qs-option.wrong { border-color: #c0392b; background: rgba(192,57,43,.08); color:#9b2d2d; }
+.btn-qs-option:disabled { pointer-events:none; }
+.qs-reveal-btn {
+  padding: 10px 20px; border: 1px solid rgba(30,61,71,.25); background: transparent;
+  font-family: var(--font); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--dark-mid); cursor: none; transition: border-color .25s, color .25s;
+}
+.qs-reveal-btn:hover { border-color: var(--dark); color: var(--dark); }
+.qs-feedback { font-size: .85rem; padding: 12px 16px; margin-top: 8px; display:none; line-height:1.5; }
+.qs-feedback.show { display:block; }
+.qs-next-btn {
+  padding: 11px 24px; background: var(--dark); color: var(--gold-light);
+  border: none; font-family: var(--font); font-size: .72rem; letter-spacing: .15em;
+  text-transform: uppercase; font-weight: 600; cursor: none; transition: background .3s;
+  display:none; margin-top:12px;
+}
+.qs-next-btn:hover { background: var(--terra); }
+.qs-next-btn.show { display:inline-block; }
+
+/* ===== GAME 5: GEOGRAFIA ===== */
+.geo-question-wrap { max-width: 680px; }
+.geo-q-num { font-size: .68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--terra); font-weight:600; margin-bottom:10px; }
+.geo-q-text { font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 22px; line-height:1.5; }
+.geo-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.btn-geo {
+  padding: 14px 18px; border: 1.5px solid var(--bg-dark); background: var(--white);
+  font-family: var(--font); font-size: .88rem; color: var(--dark); cursor: none;
+  text-align: left; transition: border-color .25s, background .25s; display:flex; align-items:center; gap:12px;
+}
+.btn-geo:hover { border-color: var(--gold); background: #fefcfa; }
+.btn-geo .geo-opt-letter { font-weight: 700; color: var(--terra); width: 18px; flex-shrink:0; }
+.btn-geo.correct { border-color: #4a9b6f; background: rgba(74,155,111,.08); }
+.btn-geo.wrong { border-color: #c0392b; background: rgba(192,57,43,.08); }
+.btn-geo:disabled { pointer-events:none; }
+.geo-feedback { font-size:.85rem; padding:12px 16px; margin-top:4px; display:none; line-height:1.5; }
+.geo-feedback.show { display:block; }
+.geo-progress-bar-wrap { height:3px; background:var(--bg-dark); margin-bottom:20px; }
+.geo-progress-bar { height:3px; background:var(--terra); transition:width .4s var(--ease-out); }
+
+/* ===== GAME 6: EN QUE AÑO ===== */
+.year-q-text { font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 22px; line-height:1.5; }
+.year-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+.btn-year {
+  padding: 18px 16px; border: 1.5px solid var(--bg-dark); background: var(--white);
+  font-family: var(--font); font-size: 1.1rem; font-weight: 700; color: var(--dark); cursor: none;
+  text-align: center; transition: border-color .25s, background .25s;
+}
+.btn-year:hover { border-color: var(--gold); background: #fefcfa; }
+.btn-year.correct { border-color: #4a9b6f; background: rgba(74,155,111,.08); color:#2d7a52; }
+.btn-year.wrong { border-color: #c0392b; background: rgba(192,57,43,.08); color:#9b2d2d; }
+.btn-year:disabled { pointer-events:none; }
+.year-feedback { font-size:.85rem; padding:12px 16px; margin-top:4px; display:none; line-height:1.5; }
+.year-feedback.show { display:block; }
+
+/* ===== GAME 7: EL INTRUSO ===== */
+.intruso-round-label { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--terra); font-weight:600; margin-bottom:16px; }
+.intruso-category { font-size:.88rem; color:var(--dark-mid); margin-bottom:20px; font-weight:300; }
+.intruso-options { display: flex; flex-wrap:wrap; gap: 10px; margin-bottom: 20px; }
+.btn-intruso {
+  padding: 12px 22px; border: 1.5px solid var(--bg-dark); background: var(--white);
+  font-family: var(--font); font-size: .9rem; font-weight: 500; color: var(--dark); cursor: none;
+  transition: border-color .25s, background .25s;
+}
+.btn-intruso:hover { border-color: var(--gold); background: #fefcfa; }
+.btn-intruso.correct { border-color: #4a9b6f; background: rgba(74,155,111,.1); color:#2d7a52; font-weight:600; }
+.btn-intruso.wrong { border-color: #c0392b; background: rgba(192,57,43,.08); color:#9b2d2d; }
+.btn-intruso:disabled { pointer-events:none; }
+.intruso-feedback { font-size:.85rem; padding:12px 16px; margin-top:4px; display:none; line-height:1.5; }
+.intruso-feedback.show { display:block; }
+
+/* ===== GAME 8: SOPA DE LETRAS ===== */
+.wordsearch-wrap { display: flex; gap: 40px; align-items: flex-start; flex-wrap:wrap; }
+.ws-grid-wrap { overflow-x:auto; }
+.ws-grid {
+  display: grid; gap: 3px; user-select:none;
+}
+.ws-cell {
+  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+  font-size: .82rem; font-weight: 600; color: var(--dark); background: var(--white);
+  border: 1px solid var(--bg-dark); cursor: none; transition: background .15s, color .15s;
+  font-family: var(--font);
+}
+.ws-cell:hover { background: var(--gold-pale); border-color: var(--gold); }
+.ws-cell.selected { background: rgba(131,60,48,.15); border-color: var(--terra); color: var(--terra); }
+.ws-cell.found { background: var(--dark); color: var(--gold-light); border-color: var(--dark); pointer-events:none; }
+.ws-words { min-width: 200px; }
+.ws-word-list { list-style: none; margin-top: 8px; }
+.ws-word-list li {
+  font-size: .82rem; color: var(--dark); padding: 5px 0;
+  border-bottom: 1px solid var(--bg-dark); display:flex; align-items:center; gap:8px;
+  transition: color .3s;
+}
+.ws-word-list li.found { text-decoration: line-through; color: rgba(30,61,71,.35); }
+.ws-word-list li::before { content:''; width:8px; height:8px; border-radius:50%; background:var(--bg-dark); flex-shrink:0; transition:background .3s; }
+.ws-word-list li.found::before { background: #4a9b6f; }
+.ws-label { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--terra); font-weight:600; margin-bottom:6px; }
+.ws-instructions { font-size:.78rem; color:var(--dark-mid); margin-top:16px; line-height:1.6; font-weight:300; }
+.ws-found-count { margin-top: 16px; font-size:.85rem; color:var(--dark); }
+.ws-found-count span { font-weight:700; color:var(--terra); }
+
+/* ===== RESULT SHARED ===== */
+.result-box {
+  background: var(--dark); color: var(--white);
+  padding: 32px 36px; margin-top: 28px; display:none;
+  border-left: 4px solid var(--gold);
+}
+.result-box.show { display:block; }
+.result-box-title { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:8px; }
+.result-box-score { font-size:2.6rem; font-weight:700; color:var(--gold-light); line-height:1; }
+.result-box-msg { font-size:.88rem; color:rgba(253,250,246,.6); margin-top:10px; line-height:1.7; font-weight:300; }
+
+/* ===== NEXT QUESTION BUTTON ===== */
+.btn-next-q {
+  padding: 11px 24px; background: var(--dark); color: var(--gold-light);
+  border: none; font-family: var(--font); font-size: .72rem; letter-spacing: .15em;
+  text-transform: uppercase; font-weight: 600; cursor: none; transition: background .3s; display:none;
+}
+.btn-next-q:hover { background: var(--terra); }
+.btn-next-q.show { display:inline-block; }
+
+@media (max-width:900px) {
+  .games-selector { grid-template-columns: repeat(2,1fr); }
+  .match-grid { grid-template-columns: 1fr; }
+  .qs-options { grid-template-columns: 1fr; }
+  .year-options { grid-template-columns: 1fr 1fr; }
+  .wordsearch-wrap { flex-direction:column; }
+}
+@media (max-width:600px) {
+  .games-selector { grid-template-columns: 1fr 1fr; }
+  .vof-buttons { flex-direction:column; }
+  .btn-vof { max-width:100%; }
+  .intruso-options { flex-direction:column; }
+  .year-options { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Loader -->
+<div id="loader">
+  <img class="loader-star" src="img/logo.svg" alt="">
+  <div class="loader-text">Cargando — Juegos Interactivos</div>
+</div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Inicio</a>
+  <a href="s1.html">Sesión 1</a>
+  <a href="s2.html">Sesión 2</a>
+  <a href="s3.html">Sesión 3</a>
+  <a href="s4.html">Sesión 4</a>
+  <a href="about.html">El Proyecto</a>
+  <a href="resources.html">Recursos</a>
+  <a href="juegos.html">Juegos</a>
+  <a href="contact.html">Contacto</a>
+</div>
+
+<!-- Navigation -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <img class="nav-logo-mark" src="img/logo.svg" alt="Logo" style="filter: invert(1);">
+    España en el norte de África
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">Inicio</a></li>
+    <li><a href="s1.html" class="nav-link">Sesión 1</a></li>
+    <li><a href="s2.html" class="nav-link">Sesión 2</a></li>
+    <li><a href="s3.html" class="nav-link">Sesión 3</a></li>
+    <li><a href="s4.html" class="nav-link">Sesión 4</a></li>
+    <li><a href="about.html" class="nav-link">El Proyecto</a></li>
+    <li><a href="resources.html" class="nav-link">Recursos</a></li>
+    <li><a href="juegos.html" class="nav-link active">Juegos</a></li>
+    <li><a href="contact.html" class="nav-link">Contacto</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="juegos-hero">
+  <div class="hero-pattern"></div>
+  <div class="juegos-hero-content">
+    <div class="juegos-hero-eyebrow">Actividades · Conocimiento Histórico</div>
+    <h1 class="juegos-hero-title">
+      Juegos <span>Interactivos</span>
+    </h1>
+    <p class="juegos-hero-sub">Pon a prueba tus conocimientos sobre el protectorado español en Marruecos (1912–1956) con ocho actividades interactivas diseñadas para repasar, reflexionar y aprender.</p>
+  </div>
+</section>
+
+<!-- GAME SELECTOR -->
+<section class="games-selector-section">
+  <div class="games-selector">
+    <button class="game-tab active" data-game="1" onclick="switchGame(1)">
+      <span class="tab-num">01</span>
+      <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg></span>
+      <span class="tab-name">Cronología</span>
+      <span class="tab-type">Ordena los eventos</span>
+    </button>
+    <button class="game-tab" data-game="2" onclick="switchGame(2)">
+      <span class="tab-num">02</span>
+      <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/><line x1="4" y1="19" x2="20" y2="19" stroke-width="1" stroke-opacity=".3"/></svg></span>
+      <span class="tab-name">Verdadero o Falso</span>
+      <span class="tab-type">Quiz · 8 preguntas</span>
+    </button>
+    <button class="game-tab" data-game="3" onclick="switchGame(3)">
+      <span class="tab-num">03</span>
+      <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
+      <span class="tab-name">Une los Términos</span>
+      <span class="tab-type">Empareja conceptos</span>
+    </button>
+    <button class="game-tab" data-game="4" onclick="switchGame(4)">
+      <span class="tab-num">04</span>
+      <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><circle cx="18" cy="18" r="3"/><path d="M20.5 20.5L22 22"/></svg></span>
+      <span class="tab-name">¿Quién soy?</span>
+      <span class="tab-type">Adivina la figura histórica</span>
+    </button>
+    <button class="game-tab" data-game="5" onclick="switchGame(5)">
+      <span class="tab-num">05</span>
+      <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span>
+      <span class="tab-name">Geografía</span>
+      <span class="tab-type">Quiz de lugares</span>
+    </button>
+    <button class="game-tab" data-game="6" onclick="switchGame(6)">
+      <span class="tab-num">06</span>
+      <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14" stroke-width="2.5"/><line x1="12" y1="14" x2="12" y2="14" stroke-width="2.5"/><line x1="16" y1="14" x2="16" y2="14" stroke-width="2.5"/></svg></span>
+      <span class="tab-name">¿En qué año?</span>
+      <span class="tab-type">Adivina la fecha</span>
+    </button>
+    <button class="game-tab" data-game="7" onclick="switchGame(7)">
+      <span class="tab-num">07</span>
+      <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+      <span class="tab-name">El Intruso</span>
+      <span class="tab-type">Encuentra el que no pertenece</span>
+    </button>
+    <button class="game-tab" data-game="8" onclick="switchGame(8)">
+      <span class="tab-num">08</span>
+      <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="13" y2="12"/><line x1="7" y1="16" x2="15" y2="16"/></svg></span>
+      <span class="tab-name">Sopa de Letras</span>
+      <span class="tab-type">Encuentra las palabras</span>
+    </button>
+  </div>
+</section>
+
+<!-- GAME DISPLAY -->
+<section class="game-display-section">
+
+  <!-- ===== GAME 1: CRONOLOGÍA PAIRWISE ===== -->
+  <div id="game-1" class="game-panel active">
+    <div class="game-header">
+      <div class="game-title-row">
+        <h2 class="game-title">Cronología del Protectorado</h2>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span id="g1-score" class="game-score-badge">0 / 8</span>
+          <button class="btn-reset" onclick="initGame1()">↺ Reiniciar</button>
+        </div>
+      </div>
+      <p class="game-desc">Se muestran dos eventos históricos. Haz clic en el que ocurrió <strong>primero</strong>. Cada pregunta es completamente independiente.</p>
+    </div>
+    <div id="g1-progress" class="pair-progress"></div>
+    <div id="g1-q-label" class="pair-q-label"></div>
+    <div class="pair-prompt">¿Cuál ocurrió primero?</div>
+    <div class="pair-cards">
+      <button class="pair-card" id="g1-card-a" onclick="answerPair('a')">
+        <div class="pair-card-text" id="g1-text-a"></div>
+        <div class="pair-card-year" id="g1-year-a"></div>
+      </button>
+      <div class="pair-vs">VS</div>
+      <button class="pair-card" id="g1-card-b" onclick="answerPair('b')">
+        <div class="pair-card-text" id="g1-text-b"></div>
+        <div class="pair-card-year" id="g1-year-b"></div>
+      </button>
+    </div>
+    <div id="g1-feedback" class="pair-feedback"></div>
+    <div class="game-controls">
+      <button class="btn-next-q" id="g1-next" onclick="nextPair()" style="display:none">Siguiente →</button>
+    </div>
+    <div id="g1-result" class="result-box">
+      <div class="result-box-title">Resultado</div>
+      <div id="g1-result-score" class="result-box-score"></div>
+      <div id="g1-result-msg" class="result-box-msg"></div>
+    </div>
+  </div>
+
+  <!-- ===== GAME 2: VERDADERO O FALSO ===== -->
+  <div id="game-2" class="game-panel">
+    <div class="game-header">
+      <div class="game-title-row">
+        <h2 class="game-title">Verdadero o Falso</h2>
+        <button class="btn-reset" onclick="initGame2()">↺ Reiniciar</button>
+      </div>
+      <p class="game-desc">Lee cada afirmación y decide si es <strong>verdadera o falsa</strong>. Recibirás una explicación después de cada respuesta.</p>
+    </div>
+    <div id="g2-progress" class="vof-progress"></div>
+    <div id="g2-quiz">
+      <div id="g2-num" class="vof-question-num"></div>
+      <div id="g2-text" class="vof-question-text"></div>
+      <div class="vof-buttons">
+        <button class="btn-vof btn-vof-v" id="g2-btn-v" onclick="answerVof(true)">✓ Verdadero</button>
+        <button class="btn-vof btn-vof-f" id="g2-btn-f" onclick="answerVof(false)">✗ Falso</button>
+      </div>
+      <div id="g2-feedback" class="vof-feedback"></div>
+      <button class="btn-next-q" id="g2-next" onclick="nextVof()">Siguiente pregunta →</button>
+    </div>
+    <div id="g2-result" class="vof-result">
+      <div id="g2-result-score" class="vof-result-score"></div>
+      <div class="vof-result-label">de 8 respuestas correctas</div>
+      <div id="g2-result-msg" class="vof-result-msg"></div>
+      <button class="btn-check" onclick="initGame2()">Jugar de nuevo</button>
+    </div>
+  </div>
+
+  <!-- ===== GAME 3: UNE LOS TÉRMINOS ===== -->
+  <div id="game-3" class="game-panel">
+    <div class="game-header">
+      <div class="game-title-row">
+        <h2 class="game-title">Une los Términos</h2>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span id="g3-score" class="game-score-badge">0 / 6</span>
+          <button class="btn-reset" onclick="initGame3()">↺ Reiniciar</button>
+        </div>
+      </div>
+      <p class="game-desc">Haz clic en un <strong>término</strong> (izquierda) y luego en su <strong>definición</strong> correspondiente (derecha) para emparejarlos.</p>
+    </div>
+    <div class="match-grid">
+      <div class="match-col">
+        <div class="match-col-label">Términos</div>
+        <div id="g3-terms"></div>
+      </div>
+      <div class="match-col">
+        <div class="match-col-label">Definiciones</div>
+        <div id="g3-defs"></div>
+      </div>
+    </div>
+    <div id="g3-feedback" class="timeline-feedback" style="margin-top:16px;"></div>
+  </div>
+
+  <!-- ===== GAME 4: QUIÉN SOY ===== -->
+  <div id="game-4" class="game-panel">
+    <div class="game-header">
+      <div class="game-title-row">
+        <h2 class="game-title">¿Quién soy?</h2>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span id="g4-score" class="game-score-badge">0 / 4</span>
+          <button class="btn-reset" onclick="initGame4()">↺ Reiniciar</button>
+        </div>
+      </div>
+      <p class="game-desc">Lee las pistas una a una y adivina de qué figura histórica se trata. <strong>Cuantas menos pistas necesites, mejor.</strong></p>
+    </div>
+    <div id="g4-fig-progress" class="qs-figure-progress"></div>
+    <div id="g4-clues" class="qs-clues"></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+      <button class="qs-reveal-btn" id="g4-reveal-btn" onclick="revealNextClue()">Mostrar otra pista</button>
+      <span id="g4-clue-counter" style="font-size:.8rem;color:var(--dark-mid);"></span>
+    </div>
+    <div id="g4-options" class="qs-options"></div>
+    <div id="g4-feedback" class="qs-feedback feedback-correct"></div>
+    <button class="qs-next-btn" id="g4-next-btn" onclick="nextFigure()">Siguiente figura →</button>
+  </div>
+
+  <!-- ===== GAME 5: GEOGRAFÍA ===== -->
+  <div id="game-5" class="game-panel">
+    <div class="game-header">
+      <div class="game-title-row">
+        <h2 class="game-title">Geografía del Protectorado</h2>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span id="g5-score" class="game-score-badge">0 / 6</span>
+          <button class="btn-reset" onclick="initGame5()">↺ Reiniciar</button>
+        </div>
+      </div>
+      <p class="game-desc">Preguntas sobre los lugares clave del protectorado español en Marruecos. Elige la respuesta correcta.</p>
+    </div>
+    <div class="geo-progress-bar-wrap"><div id="g5-bar" class="geo-progress-bar" style="width:0%"></div></div>
+    <div id="g5-quiz" class="geo-question-wrap">
+      <div id="g5-num" class="geo-q-num"></div>
+      <div id="g5-text" class="geo-q-text"></div>
+      <div id="g5-options" class="geo-options"></div>
+      <div id="g5-feedback" class="geo-feedback"></div>
+      <button class="btn-next-q" id="g5-next" onclick="nextGeo()">Siguiente →</button>
+    </div>
+    <div id="g5-result" class="result-box">
+      <div class="result-box-title">Resultado</div>
+      <div id="g5-result-score" class="result-box-score"></div>
+      <div id="g5-result-msg" class="result-box-msg"></div>
+    </div>
+  </div>
+
+  <!-- ===== GAME 6: EN QUÉ AÑO ===== -->
+  <div id="game-6" class="game-panel">
+    <div class="game-header">
+      <div class="game-title-row">
+        <h2 class="game-title">¿En qué año ocurrió?</h2>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span id="g6-score" class="game-score-badge">0 / 7</span>
+          <button class="btn-reset" onclick="initGame6()">↺ Reiniciar</button>
+        </div>
+      </div>
+      <p class="game-desc">Para cada evento histórico, elige el año correcto entre las cuatro opciones.</p>
+    </div>
+    <div class="geo-progress-bar-wrap"><div id="g6-bar" class="geo-progress-bar" style="width:0%"></div></div>
+    <div id="g6-quiz">
+      <div id="g6-num" class="geo-q-num"></div>
+      <div id="g6-text" class="year-q-text"></div>
+      <div id="g6-options" class="year-options"></div>
+      <div id="g6-feedback" class="year-feedback"></div>
+      <button class="btn-next-q" id="g6-next" onclick="nextYear()">Siguiente →</button>
+    </div>
+    <div id="g6-result" class="result-box">
+      <div class="result-box-title">Resultado</div>
+      <div id="g6-result-score" class="result-box-score"></div>
+      <div id="g6-result-msg" class="result-box-msg"></div>
+    </div>
+  </div>
+
+  <!-- ===== GAME 7: EL INTRUSO ===== -->
+  <div id="game-7" class="game-panel">
+    <div class="game-header">
+      <div class="game-title-row">
+        <h2 class="game-title">El Intruso</h2>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span id="g7-score" class="game-score-badge">0 / 6</span>
+          <button class="btn-reset" onclick="initGame7()">↺ Reiniciar</button>
+        </div>
+      </div>
+      <p class="game-desc">En cada ronda verás cinco elementos. <strong>Uno no pertenece</strong> al grupo por algún motivo histórico. ¿Cuál es?</p>
+    </div>
+    <div id="g7-round-label" class="intruso-round-label"></div>
+    <div id="g7-category" class="intruso-category"></div>
+    <div id="g7-options" class="intruso-options"></div>
+    <div id="g7-feedback" class="intruso-feedback"></div>
+    <button class="btn-next-q" id="g7-next" onclick="nextIntruso()">Siguiente ronda →</button>
+    <div id="g7-result" class="result-box">
+      <div class="result-box-title">Resultado final</div>
+      <div id="g7-result-score" class="result-box-score"></div>
+      <div id="g7-result-msg" class="result-box-msg"></div>
+    </div>
+  </div>
+
+  <!-- ===== GAME 8: SOPA DE LETRAS ===== -->
+  <div id="game-8" class="game-panel">
+    <div class="game-header">
+      <div class="game-title-row">
+        <h2 class="game-title">Sopa de Letras</h2>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span id="g8-found" class="game-score-badge">0 / 8 encontradas</span>
+          <button class="btn-reset" onclick="initGame8()">↺ Reiniciar</button>
+        </div>
+      </div>
+      <p class="game-desc">Encuentra las ocho palabras clave del protectorado. Haz clic en la primera letra de la palabra, luego en la última — horizontal, vertical o diagonal.</p>
+    </div>
+    <div class="wordsearch-wrap">
+      <div class="ws-grid-wrap">
+        <div id="g8-grid" class="ws-grid"></div>
+      </div>
+      <div class="ws-words">
+        <div class="ws-label">Palabras a encontrar</div>
+        <ul id="g8-word-list" class="ws-word-list"></ul>
+        <div id="g8-win" class="timeline-feedback feedback-correct" style="margin-top:16px;"></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-brand">El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</div><p class="footer-tagline">Un recurso educativo para explorar la historia colonial de España en Marruecos (1912–1956) a través de fuentes primarias, debate y creación colectiva.</p></div>
+    <div><div class="footer-nav-label">El Taller</div><ul class="footer-nav-links"><li><a href="s1.html">Sesión 1 — Fuentes Primarias</a></li><li><a href="s2.html">Sesión 2 — Memoria Histórica</a></li><li><a href="s3.html">Sesión 3 — Taller en Grupos</a></li><li><a href="s4.html">Sesión 4 — Presentaciones</a></li></ul></div>
+    <div><div class="footer-nav-label">Más información</div><ul class="footer-nav-links"><li><a href="about.html">Sobre el proyecto</a></li><li><a href="resources.html">Recursos adicionales</a></li><li><a href="juegos.html">Juegos interactivos</a></li><li><a href="contact.html">Contacto</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</span><div class="footer-geo-mark"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>España — Marruecos</div></div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+// ============================================================
+// GAME 1 — CRONOLOGÍA (PAIRWISE)
+// ============================================================
+const G1_EVENTS = [
+  { text: "Conferencia de Algeciras: las potencias europeas acuerdan el reparto de Marruecos", year: 1906 },
+  { text: "Tratado de Fez: España y Francia establecen sus protectorados en Marruecos", year: 1912 },
+  { text: "Desastre de Annual: más de 8.000 soldados españoles muertos en el Rif", year: 1921 },
+  { text: "Abdelkrim el-Jatabi proclama la República del Rif", year: 1923 },
+  { text: "Rendición de Abdelkrim ante las fuerzas hispano-francesas", year: 1926 },
+  { text: "Francisco Franco inicia la Guerra Civil española desde Marruecos", year: 1936 },
+  { text: "Marruecos proclama su independencia; fin del protectorado español", year: 1956 }
+];
+
+const G1_TOTAL = 8;
+let g1Pairs = [], g1PairIdx = 0, g1PairScore = 0;
+
+function generatePairs(events, n) {
+  const all = [];
+  for (let i = 0; i < events.length; i++)
+    for (let j = i + 1; j < events.length; j++)
+      all.push([i, j]);
+  all.sort(() => Math.random() - 0.5);
+  return all.slice(0, n);
+}
+
+function initGame1() {
+  g1PairIdx = 0; g1PairScore = 0;
+  g1Pairs = generatePairs(G1_EVENTS, G1_TOTAL);
+  document.getElementById('g1-progress').innerHTML =
+    g1Pairs.map((_, i) => `<div class="pair-dot" id="g1-dot-${i}"></div>`).join('');
+  document.getElementById('g1-result').classList.remove('show');
+  document.getElementById('g1-score').textContent = `0 / ${G1_TOTAL}`;
+  document.getElementById('g1-next').style.display = 'none';
+  showPair();
+}
+
+function showPair() {
+  const [iA, iB] = g1Pairs[g1PairIdx];
+  // Randomly flip which event appears on left vs right
+  const flip = Math.random() < 0.5;
+  const eLeft  = G1_EVENTS[flip ? iB : iA];
+  const eRight = G1_EVENTS[flip ? iA : iB];
+
+  document.getElementById('g1-q-label').textContent = `Pregunta ${g1PairIdx + 1} de ${G1_TOTAL}`;
+  document.getElementById('g1-text-a').textContent = eLeft.text;
+  document.getElementById('g1-text-b').textContent = eRight.text;
+
+  const yearA = document.getElementById('g1-year-a');
+  const yearB = document.getElementById('g1-year-b');
+  yearA.textContent = eLeft.year;
+  yearB.textContent = eRight.year;
+  yearA.classList.remove('show');
+  yearB.classList.remove('show');
+
+  const cardA = document.getElementById('g1-card-a');
+  const cardB = document.getElementById('g1-card-b');
+  cardA.dataset.year = eLeft.year;
+  cardB.dataset.year = eRight.year;
+  cardA.className = 'pair-card'; cardA.disabled = false;
+  cardB.className = 'pair-card'; cardB.disabled = false;
+
+  document.getElementById('g1-feedback').className = 'pair-feedback';
+  document.getElementById('g1-next').style.display = 'none';
+
+  document.querySelectorAll('.pair-dot').forEach((d, i) => {
+    d.classList.toggle('current', i === g1PairIdx);
+  });
+}
+
+function answerPair(choice) {
+  const cardA = document.getElementById('g1-card-a');
+  const cardB = document.getElementById('g1-card-b');
+  const yearA = parseInt(cardA.dataset.year);
+  const yearB = parseInt(cardB.dataset.year);
+  const earlier = yearA < yearB ? 'a' : 'b';
+
+  cardA.disabled = true; cardB.disabled = true;
+  document.getElementById('g1-year-a').classList.add('show');
+  document.getElementById('g1-year-b').classList.add('show');
+
+  const fb = document.getElementById('g1-feedback');
+  const dot = document.getElementById(`g1-dot-${g1PairIdx}`);
+  dot.classList.remove('current');
+
+  if (choice === earlier) {
+    g1PairScore++;
+    (choice === 'a' ? cardA : cardB).classList.add('selected-correct');
+    (choice === 'a' ? cardB : cardA).classList.add('revealed-correct');
+    fb.className = 'pair-feedback show feedback-correct';
+    fb.textContent = `✓ Correcto — ocurrió en ${choice === 'a' ? yearA : yearB}.`;
+    dot.classList.add('done-correct');
+  } else {
+    (choice === 'a' ? cardA : cardB).classList.add('selected-wrong');
+    (choice === 'a' ? cardB : cardA).classList.add('selected-correct');
+    const correctYear = earlier === 'a' ? yearA : yearB;
+    fb.className = 'pair-feedback show feedback-wrong';
+    fb.textContent = `✗ El primero fue el evento de ${correctYear}.`;
+    dot.classList.add('done-wrong');
+  }
+  document.getElementById('g1-score').textContent = `${g1PairScore} / ${G1_TOTAL}`;
+  document.getElementById('g1-next').style.display = 'inline-block';
+}
+
+function nextPair() {
+  g1PairIdx++;
+  if (g1PairIdx >= G1_TOTAL) { endPair(); } else { showPair(); }
+}
+
+function endPair() {
+  document.getElementById('g1-next').style.display = 'none';
+  document.getElementById('g1-feedback').className = 'pair-feedback';
+  const res = document.getElementById('g1-result');
+  res.classList.add('show');
+  document.getElementById('g1-result-score').textContent = `${g1PairScore} / ${G1_TOTAL}`;
+  const msgs = [
+    '¡Sigue repasando la cronología del protectorado!',
+    'Buen intento — ¡la cronología es complicada, casi lo tienes!',
+    '¡Muy bien! Dominas el orden de los eventos clave.',
+    '¡Perfecto! Eres un experto/a en la cronología del protectorado.'
+  ];
+  document.getElementById('g1-result-msg').textContent = msgs[Math.min(Math.floor(g1PairScore / 2.1), 3)];
+}
+
+// ============================================================
+// GAME 2 — VERDADERO O FALSO
+// ============================================================
+const G2_QS = [
+  { q: "El protectorado español abarcó el norte de Marruecos.", ans: true, exp: "Correcto. España controló la franja norte de Marruecos, mientras Francia administraba el centro y sur." },
+  { q: "España mantuvo el protectorado de Marruecos durante más de cien años.", ans: false, exp: "Falso. El protectorado duró 44 años: desde el Tratado de Fez (1912) hasta la independencia de Marruecos (1956)." },
+  { q: "Abdelkrim el-Jatabi fue el líder de la resistencia rifeña contra el protectorado.", ans: true, exp: "Correcto. Abdelkrim derrotó al ejército español en Annual (1921) y fundó la República del Rif (1923)." },
+  { q: "El Desastre de Annual ocurrió en el año 1921.", ans: true, exp: "Correcto. En julio-agosto de 1921, las fuerzas del Rif derrotaron al ejército español, causando más de 8.000 bajas." },
+  { q: "Francisco Franco inició el golpe de Estado de 1936 desde Madrid.", ans: false, exp: "Falso. Franco coordinó el alzamiento desde Canarias y viajó a Marruecos para ponerse al mando del Ejército de África, que cruzó el Estrecho para invadir España." },
+  { q: "Marruecos obtuvo su independencia en el año 1960.", ans: false, exp: "Falso. Marruecos se independizó el 2 de marzo de 1956, bajo el sultanato de Mohamed V." },
+  { q: "El Tratado de Fez, que estableció el protectorado, se firmó en 1912.", ans: true, exp: "Correcto. El 30 de marzo de 1912, España y Francia formalizaron sus protectorados en Marruecos mediante el Tratado de Fez." },
+  { q: "La ciudad de Ceuta dejó de ser española tras la independencia de Marruecos en 1956.", ans: false, exp: "Falso. Ceuta (y Melilla) permanecieron como territorios españoles tras 1956 y siguen siéndolo hoy." }
+];
+let g2Idx = 0, g2Score = 0;
+
+function initGame2() {
+  g2Idx = 0; g2Score = 0;
+  const prog = document.getElementById('g2-progress');
+  prog.innerHTML = G2_QS.map((_, i) => `<div class="vof-dot" id="g2-dot-${i}"></div>`).join('');
+  document.getElementById('g2-result').style.display = 'none';
+  document.getElementById('g2-quiz').style.display = 'block';
+  document.getElementById('g2-next').classList.remove('show');
+  document.getElementById('g2-feedback').className = 'vof-feedback';
+  document.getElementById('g2-btn-v').disabled = false;
+  document.getElementById('g2-btn-f').disabled = false;
+  showVof();
+}
+
+function showVof() {
+  if (g2Idx >= G2_QS.length) { endVof(); return; }
+  document.getElementById('g2-num').textContent = `Pregunta ${g2Idx + 1} de ${G2_QS.length}`;
+  document.getElementById('g2-text').textContent = G2_QS[g2Idx].q;
+  document.getElementById('g2-feedback').className = 'vof-feedback';
+  document.getElementById('g2-next').classList.remove('show');
+  document.getElementById('g2-btn-v').disabled = false;
+  document.getElementById('g2-btn-f').disabled = false;
+  document.querySelectorAll('.vof-dot').forEach((d, i) => {
+    d.classList.toggle('current', i === g2Idx);
+  });
+}
+
+function answerVof(ans) {
+  const q = G2_QS[g2Idx];
+  document.getElementById('g2-btn-v').disabled = true;
+  document.getElementById('g2-btn-f').disabled = true;
+  const fb = document.getElementById('g2-feedback');
+  fb.className = 'vof-feedback show';
+  const dot = document.getElementById(`g2-dot-${g2Idx}`);
+  if (ans === q.ans) {
+    g2Score++;
+    fb.className += ' feedback-correct';
+    fb.innerHTML = `✓ ${q.exp}`;
+    dot.className = 'vof-dot done-correct';
+  } else {
+    fb.className += ' feedback-wrong';
+    fb.innerHTML = `✗ ${q.exp}`;
+    dot.className = 'vof-dot done-wrong';
+  }
+  document.getElementById('g2-next').classList.add('show');
+}
+
+function nextVof() {
+  g2Idx++;
+  if (g2Idx >= G2_QS.length) { endVof(); } else { showVof(); }
+}
+
+function endVof() {
+  document.getElementById('g2-quiz').style.display = 'none';
+  const res = document.getElementById('g2-result');
+  res.style.display = 'block';
+  document.getElementById('g2-result-score').textContent = g2Score;
+  const msgs = ['Sigue repasando el material del taller — ¡la historia te está esperando!', '¡Buen intento! Revisa las sesiones para afianzar los conceptos.', '¡Muy bien! Dominas bastante bien la historia del protectorado.', '¡Excelente! Eres un experto/a en la historia colonial de España en Marruecos.'];
+  document.getElementById('g2-result-msg').textContent = msgs[Math.min(Math.floor(g2Score / 2.1), 3)];
+}
+
+// ============================================================
+// GAME 3 — UNE LOS TÉRMINOS
+// ============================================================
+const G3_PAIRS = [
+  { term: "Protectorado", def: "Territorio administrado por una potencia extranjera que conserva formalmente su soberanía" },
+  { term: "El Rif", def: "Región montañosa del norte de Marruecos, centro de la resistencia anticolonial" },
+  { term: "Annual", def: "Pueblo donde ocurrió el mayor desastre militar español: más de 8.000 muertos (1921)" },
+  { term: "Regulares", def: "Tropas marroquíes al servicio del ejército colonial español, creadas en 1911" },
+  { term: "Tratado de Fez", def: "Acuerdo de 1912 que estableció los protectorados hispano-francés sobre Marruecos" },
+  { term: "Mohamed V", def: "Sultán que lideró la transición hacia la independencia de Marruecos en 1956" }
+];
+let g3SelectedTerm = null, g3Matched = 0, g3ShuffledDefs = [];
+
+function initGame3() {
+  g3SelectedTerm = null; g3Matched = 0;
+  g3ShuffledDefs = [...G3_PAIRS].sort(() => Math.random() - 0.5);
+  const termsEl = document.getElementById('g3-terms');
+  const defsEl = document.getElementById('g3-defs');
+  termsEl.innerHTML = '';
+  defsEl.innerHTML = '';
+  G3_PAIRS.forEach((p, i) => {
+    const t = document.createElement('div');
+    t.className = 'match-item match-term'; t.dataset.idx = i; t.textContent = p.term;
+    t.addEventListener('click', () => selectTerm(i, t));
+    termsEl.appendChild(t);
+  });
+  g3ShuffledDefs.forEach((p, i) => {
+    const d = document.createElement('div');
+    d.className = 'match-item'; d.dataset.orig = G3_PAIRS.indexOf(p);
+    d.textContent = p.def;
+    d.addEventListener('click', () => selectDef(d));
+    defsEl.appendChild(d);
+  });
+  document.getElementById('g3-score').textContent = '0 / 6';
+  document.getElementById('g3-feedback').className = 'timeline-feedback';
+}
+
+function selectTerm(idx, el) {
+  if (el.classList.contains('matched-correct')) return;
+  document.querySelectorAll('#g3-terms .match-item').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  g3SelectedTerm = idx;
+}
+
+function selectDef(el) {
+  if (!g3SelectedTerm === null && g3SelectedTerm === null) return;
+  if (el.classList.contains('matched-correct')) return;
+  if (g3SelectedTerm === null) {
+    document.getElementById('g3-feedback').className = 'timeline-feedback show feedback-wrong';
+    document.getElementById('g3-feedback').textContent = 'Primero haz clic en un término de la izquierda.';
+    return;
+  }
+  const origIdx = parseInt(el.dataset.orig);
+  const termEl = document.querySelector(`#g3-terms [data-idx="${g3SelectedTerm}"]`);
+  if (origIdx === g3SelectedTerm) {
+    termEl.classList.remove('selected'); termEl.classList.add('matched-correct');
+    el.classList.add('matched-correct');
+    g3Matched++;
+    document.getElementById('g3-score').textContent = `${g3Matched} / 6`;
+    if (g3Matched === 6) {
+      document.getElementById('g3-feedback').className = 'timeline-feedback show feedback-correct';
+      document.getElementById('g3-feedback').textContent = '✓ ¡Perfecto! Has emparejado todos los términos correctamente.';
+    }
+  } else {
+    termEl.classList.remove('selected');
+    el.classList.add('matched-wrong');
+    setTimeout(() => el.classList.remove('matched-wrong'), 800);
+    document.getElementById('g3-feedback').className = 'timeline-feedback show feedback-wrong';
+    document.getElementById('g3-feedback').textContent = `"${G3_PAIRS[g3SelectedTerm].term}" no corresponde a esa definición. Inténtalo de nuevo.`;
+    setTimeout(() => { document.getElementById('g3-feedback').className = 'timeline-feedback'; }, 2000);
+  }
+  g3SelectedTerm = null;
+}
+
+// ============================================================
+// GAME 4 — QUIÉN SOY
+// ============================================================
+const G4_FIGURES = [
+  {
+    name: "Abdelkrim el-Jatabi",
+    clues: [
+      "Provengo de una familia de juristas y líderes tribales del Rif marroquí.",
+      "En 1921 dirigí la batalla de Annual, derrotando a un ejército español de más de 20.000 hombres.",
+      "En 1923 proclamé la República del Rif, el primer estado moderno del mundo árabe."
+    ],
+    options: ["Abdelkrim el-Jatabi", "Mohamed V", "Manuel Fernández Silvestre", "Francisco Franco"]
+  },
+  {
+    name: "Francisco Franco",
+    clues: [
+      "Me forjé como militar en las guerras del protectorado de Marruecos.",
+      "Fui el general más joven de Europa en los años 20, ascendido por mis méritos en África.",
+      "En julio de 1936 coordiné el golpe de Estado desde las Islas Canarias y viajé a Marruecos para liderar el Ejército de África."
+    ],
+    options: ["Abdelkrim el-Jatabi", "Francisco Franco", "Miguel Primo de Rivera", "Manuel Azaña"]
+  },
+  {
+    name: "Manuel Fernández Silvestre",
+    clues: [
+      "Fui el comandante del ejército español en el sector oriental del protectorado.",
+      "En 1921 ordené un avance ambicioso y mal preparado hacia el interior del Rif.",
+      "Morí en el Desastre de Annual en circunstancias que aún hoy son debatidas por los historiadores."
+    ],
+    options: ["Dámaso Berenguer", "Manuel Fernández Silvestre", "José Sanjurjo", "Antonio Maura"]
+  },
+  {
+    name: "Mohamed V",
+    clues: [
+      "Fui sultán de Marruecos durante gran parte del período del protectorado.",
+      "En 1953, los franceses me enviaron al exilio a Madagascar por apoyar el movimiento nacionalista.",
+      "En 1956 proclamé la independencia de Marruecos y me convertí en su primer rey."
+    ],
+    options: ["Hassan II", "Abdelkrim el-Jatabi", "Mohamed V", "Allal al-Fassi"]
+  }
+];
+let g4FigIdx = 0, g4ClueIdx = 0, g4Score = 0, g4Answered = false;
+
+function initGame4() {
+  g4FigIdx = 0; g4ClueIdx = 0; g4Score = 0; g4Answered = false;
+  document.getElementById('g4-score').textContent = '0 / 4';
+  document.getElementById('g4-feedback').className = 'qs-feedback';
+  document.getElementById('g4-next-btn').classList.remove('show');
+  showFigure();
+}
+
+function showFigure() {
+  g4ClueIdx = 0; g4Answered = false;
+  const fig = G4_FIGURES[g4FigIdx];
+  // progress dots
+  const prog = document.getElementById('g4-fig-progress');
+  prog.innerHTML = G4_FIGURES.map((_, i) =>
+    `<div class="qs-fig-dot ${i < g4FigIdx ? 'done' : i === g4FigIdx ? 'active' : ''}"></div>`
+  ).join('');
+  // clues
+  const cluesEl = document.getElementById('g4-clues');
+  cluesEl.innerHTML = fig.clues.map((c, i) =>
+    `<div class="qs-clue" id="g4-clue-${i}"><span class="qs-clue-num">${i+1}</span><span class="qs-clue-text">${c}</span></div>`
+  ).join('');
+  revealNextClue(); // reveal first clue automatically
+  // options (shuffled)
+  const opts = [...fig.options].sort(() => Math.random() - 0.5);
+  const optsEl = document.getElementById('g4-options');
+  optsEl.innerHTML = opts.map(o =>
+    `<button class="btn-qs-option" onclick="answerFigure('${o.replace(/'/g, "\\'")}', this)">${o}</button>`
+  ).join('');
+  document.getElementById('g4-feedback').className = 'qs-feedback';
+  document.getElementById('g4-next-btn').classList.remove('show');
+  updateClueCounter();
+  document.getElementById('g4-reveal-btn').disabled = false;
+}
+
+function revealNextClue() {
+  const fig = G4_FIGURES[g4FigIdx];
+  if (g4ClueIdx >= fig.clues.length) return;
+  document.getElementById(`g4-clue-${g4ClueIdx}`).classList.add('revealed');
+  g4ClueIdx++;
+  updateClueCounter();
+  if (g4ClueIdx >= fig.clues.length) {
+    document.getElementById('g4-reveal-btn').disabled = true;
+  }
+}
+
+function updateClueCounter() {
+  const fig = G4_FIGURES[g4FigIdx];
+  document.getElementById('g4-clue-counter').textContent = `Pista ${Math.min(g4ClueIdx, fig.clues.length)} de ${fig.clues.length}`;
+}
+
+function answerFigure(name, btn) {
+  if (g4Answered) return;
+  g4Answered = true;
+  const fig = G4_FIGURES[g4FigIdx];
+  document.querySelectorAll('.btn-qs-option').forEach(b => b.disabled = true);
+  const fb = document.getElementById('g4-feedback');
+  if (name === fig.name) {
+    g4Score++;
+    btn.classList.add('correct');
+    fb.className = 'qs-feedback show feedback-correct';
+    fb.textContent = `✓ ¡Correcto! Era ${fig.name}.`;
+  } else {
+    btn.classList.add('wrong');
+    // highlight correct
+    document.querySelectorAll('.btn-qs-option').forEach(b => { if (b.textContent.trim() === fig.name) b.classList.add('correct'); });
+    fb.className = 'qs-feedback show feedback-wrong';
+    fb.textContent = `✗ No es correcto. La respuesta era ${fig.name}.`;
+  }
+  document.getElementById('g4-score').textContent = `${g4Score} / 4`;
+  if (g4FigIdx < G4_FIGURES.length - 1) {
+    document.getElementById('g4-next-btn').classList.add('show');
+  } else {
+    document.getElementById('g4-next-btn').textContent = 'Ver resultado';
+    document.getElementById('g4-next-btn').classList.add('show');
+    document.getElementById('g4-next-btn').onclick = () => {
+      document.getElementById('g4-feedback').className = 'qs-feedback show feedback-correct';
+      document.getElementById('g4-feedback').innerHTML = `✓ Resultado final: <strong>${g4Score} de 4</strong> figuras identificadas correctamente.`;
+      document.getElementById('g4-next-btn').classList.remove('show');
+    };
+  }
+}
+
+function nextFigure() {
+  g4FigIdx++;
+  showFigure();
+}
+
+// ============================================================
+// GAME 5 — GEOGRAFÍA
+// ============================================================
+const G5_QS = [
+  { q: "¿Cuál era la capital del protectorado español en Marruecos?", opts: ["Casablanca","Tetuán","Fez","Rabat"], ans: 1, exp: "Tetuán fue la capital administrativa del protectorado español, sede del Alto Comisario." },
+  { q: "¿Cuál de estas ciudades sigue siendo territorio español hoy en día?", opts: ["Nador","Larache","Tetuán","Ceuta"], ans: 3, exp: "Ceuta (y Melilla) permanecieron como ciudades españolas tras la independencia de Marruecos en 1956." },
+  { q: "¿En qué región del norte de Marruecos se produjo la resistencia más fuerte al protectorado?", opts: ["El Atlas","El Sus","El Rif","El Draa"], ans: 2, exp: "El Rif es la cadena montañosa del norte de Marruecos donde Abdelkrim organizó la resistencia y ganó la batalla de Annual." },
+  { q: "¿En qué ciudad marroquí se firmó el Tratado de 1912 que estableció el protectorado?", opts: ["Casablanca","Tánger","Fez","Tetuán"], ans: 2, exp: "El Tratado de Fez, firmado el 30 de marzo de 1912, lleva el nombre de la ciudad imperial donde fue firmado." },
+  { q: "¿Dónde se produjo el Desastre de Annual en 1921?", opts: ["Cerca de Tetuán","En el Valle del Uarga","En la región oriental del Rif","En las afueras de Casablanca"], ans: 2, exp: "Annual es una localidad en el Rif oriental. Las fuerzas rifeñas de Abdelkrim derrotaron allí al Ejército español." },
+  { q: "¿Qué ciudad fue el principal puerto de entrada del Ejército de África en 1936?", opts: ["Casablanca","Melilla","Algeciras","Ceuta"], ans: 3, exp: "Las tropas del Ejército de África cruzaron el Estrecho desde Ceuta (y Algeciras) durante el puente aéreo de julio de 1936." }
+];
+let g5Idx = 0, g5Score = 0;
+
+function initGame5() {
+  g5Idx = 0; g5Score = 0;
+  document.getElementById('g5-score').textContent = '0 / 6';
+  document.getElementById('g5-result').classList.remove('show');
+  showGeo();
+}
+
+function showGeo() {
+  const q = G5_QS[g5Idx];
+  document.getElementById('g5-num').textContent = `Pregunta ${g5Idx + 1} de ${G5_QS.length}`;
+  document.getElementById('g5-text').textContent = q.q;
+  document.getElementById('g5-bar').style.width = `${(g5Idx / G5_QS.length) * 100}%`;
+  const optsEl = document.getElementById('g5-options');
+  const letters = ['a', 'b', 'c', 'd'];
+  optsEl.innerHTML = q.opts.map((o, i) =>
+    `<button class="btn-geo" onclick="answerGeo(${i}, this)"><span class="geo-opt-letter">${letters[i]})</span>${o}</button>`
+  ).join('');
+  document.getElementById('g5-feedback').className = 'geo-feedback';
+  document.getElementById('g5-next').classList.remove('show');
+}
+
+function answerGeo(idx, btn) {
+  const q = G5_QS[g5Idx];
+  document.querySelectorAll('#g5-options .btn-geo').forEach(b => b.disabled = true);
+  const fb = document.getElementById('g5-feedback');
+  fb.className = 'geo-feedback show';
+  if (idx === q.ans) {
+    g5Score++; btn.classList.add('correct');
+    fb.className += ' feedback-correct';
+    fb.innerHTML = `✓ Correcto. ${q.exp}`;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('#g5-options .btn-geo')[q.ans].classList.add('correct');
+    fb.className += ' feedback-wrong';
+    fb.innerHTML = `✗ ${q.exp}`;
+  }
+  document.getElementById('g5-score').textContent = `${g5Score} / 6`;
+  document.getElementById('g5-next').classList.add('show');
+}
+
+function nextGeo() {
+  g5Idx++;
+  if (g5Idx >= G5_QS.length) {
+    document.getElementById('g5-bar').style.width = '100%';
+    const res = document.getElementById('g5-result');
+    res.classList.add('show');
+    document.getElementById('g5-result-score').textContent = `${g5Score} / ${G5_QS.length}`;
+    const msgs = ['Sigue estudiando la geografía del protectorado — ¡te falta poco!', 'Bien hecho. Con un poco más de repaso lo dominarás todo.', '¡Excelente! Conoces muy bien la geografía del protectorado.'];
+    document.getElementById('g5-result-msg').textContent = msgs[Math.min(Math.floor(g5Score / 2.1), 2)];
+    document.getElementById('g5-quiz').style.display = 'none';
+  } else { showGeo(); }
+}
+
+// ============================================================
+// GAME 6 — EN QUÉ AÑO
+// ============================================================
+const G6_QS = [
+  { q: "¿En qué año se firmó el Tratado de Fez, que estableció el protectorado?", ans: 1912, opts: [1906, 1912, 1919, 1921] },
+  { q: "¿En qué año ocurrió el Desastre de Annual?", ans: 1921, opts: [1912, 1917, 1921, 1925] },
+  { q: "¿En qué año proclamó Abdelkrim la República del Rif?", ans: 1923, opts: [1921, 1923, 1926, 1930] },
+  { q: "¿En qué año se rindió Abdelkrim ante las fuerzas hispano-francesas?", ans: 1926, opts: [1923, 1924, 1926, 1929] },
+  { q: "¿En qué año se celebró la Conferencia de Algeciras, donde Europa repartió Marruecos?", ans: 1906, opts: [1900, 1906, 1909, 1912] },
+  { q: "¿En qué año inició Francisco Franco la Guerra Civil española desde Marruecos?", ans: 1936, opts: [1931, 1934, 1936, 1939] },
+  { q: "¿En qué año obtuvo Marruecos su independencia?", ans: 1956, opts: [1950, 1953, 1956, 1960] }
+];
+let g6Idx = 0, g6Score = 0;
+
+function initGame6() {
+  g6Idx = 0; g6Score = 0;
+  document.getElementById('g6-score').textContent = '0 / 7';
+  document.getElementById('g6-result').classList.remove('show');
+  document.getElementById('g6-quiz').style.display = 'block';
+  showYear();
+}
+
+function showYear() {
+  const q = G6_QS[g6Idx];
+  document.getElementById('g6-num').textContent = `Pregunta ${g6Idx + 1} de ${G6_QS.length}`;
+  document.getElementById('g6-text').textContent = q.q;
+  document.getElementById('g6-bar').style.width = `${(g6Idx / G6_QS.length) * 100}%`;
+  const opts = [...q.opts].sort(() => Math.random() - 0.5);
+  const optsEl = document.getElementById('g6-options');
+  optsEl.innerHTML = opts.map(o =>
+    `<button class="btn-year" onclick="answerYear(${o}, this)">${o}</button>`
+  ).join('');
+  document.getElementById('g6-feedback').className = 'year-feedback';
+  document.getElementById('g6-next').classList.remove('show');
+}
+
+function answerYear(year, btn) {
+  const q = G6_QS[g6Idx];
+  document.querySelectorAll('#g6-options .btn-year').forEach(b => b.disabled = true);
+  const fb = document.getElementById('g6-feedback');
+  fb.className = 'year-feedback show';
+  if (year === q.ans) {
+    g6Score++; btn.classList.add('correct');
+    fb.className += ' feedback-correct'; fb.textContent = '✓ ¡Correcto!';
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('#g6-options .btn-year').forEach(b => { if (parseInt(b.textContent) === q.ans) b.classList.add('correct'); });
+    fb.className += ' feedback-wrong'; fb.textContent = `✗ La respuesta correcta era ${q.ans}.`;
+  }
+  document.getElementById('g6-score').textContent = `${g6Score} / 7`;
+  document.getElementById('g6-next').classList.add('show');
+}
+
+function nextYear() {
+  g6Idx++;
+  if (g6Idx >= G6_QS.length) {
+    document.getElementById('g6-bar').style.width = '100%';
+    document.getElementById('g6-quiz').style.display = 'none';
+    const res = document.getElementById('g6-result');
+    res.classList.add('show');
+    document.getElementById('g6-result-score').textContent = `${g6Score} / ${G6_QS.length}`;
+    const msgs = ['¡Sigue repasando las fechas clave del protectorado!', 'Bien hecho. Las fechas históricas son difíciles, pero te acercas.', '¡Dominas la cronología del protectorado a la perfección!'];
+    document.getElementById('g6-result-msg').textContent = msgs[Math.min(Math.floor(g6Score / 2.4), 2)];
+  } else { showYear(); }
+}
+
+// ============================================================
+// GAME 7 — EL INTRUSO
+// ============================================================
+const G7_ROUNDS = [
+  { category: "Ciudades del protectorado español en Marruecos", items: ["Tetuán", "Larache", "Nador", "Sevilla", "Melilla"], intruso: "Sevilla", exp: "Sevilla es una ciudad española en la Península Ibérica, no en Marruecos." },
+  { category: "Años significativos del protectorado", items: ["1906", "1912", "1921", "1956", "1999"], intruso: "1999", exp: "1999 no tiene relación con el protectorado, que terminó en 1956. Los otros años son: Algeciras, Tratado de Fez, Annual e independencia." },
+  { category: "Figuras históricas relacionadas con el protectorado", items: ["Abdelkrim el-Jatabi", "Mohamed V", "Francisco Franco", "Simón Bolívar", "Fernández Silvestre"], intruso: "Simón Bolívar", exp: "Simón Bolívar fue el libertador de América del Sur en el siglo XIX, sin relación con el protectorado español en Marruecos." },
+  { category: "Potencias con intereses coloniales en Marruecos (Conferencia de Algeciras, 1906)", items: ["Francia", "España", "Alemania", "Reino Unido", "Australia"], intruso: "Australia", exp: "Australia no estuvo representada en Algeciras ni tenía intereses coloniales en el norte de África." },
+  { category: "Conceptos clave del colonialismo", items: ["Protectorado", "Metrópoli", "Colonia", "Sultanato", "Podcast"], intruso: "Podcast", exp: "Los otros cuatro son conceptos histórico-políticos del período colonial. Un podcast es un medio de comunicación moderno." },
+  { category: "Cadenas montañosas o regiones de Marruecos", items: ["El Rif", "El Atlas", "El Sus", "Cordillera Cantábrica", "El Draa"], intruso: "Cordillera Cantábrica", exp: "La Cordillera Cantábrica está en el norte de España, no en Marruecos. Las demás son regiones geográficas marroquíes." }
+];
+let g7Idx = 0, g7Score = 0;
+
+function initGame7() {
+  g7Idx = 0; g7Score = 0;
+  document.getElementById('g7-score').textContent = '0 / 6';
+  document.getElementById('g7-result').classList.remove('show');
+  showIntruso();
+}
+
+function showIntruso() {
+  if (g7Idx >= G7_ROUNDS.length) { endIntruso(); return; }
+  const r = G7_ROUNDS[g7Idx];
+  document.getElementById('g7-round-label').textContent = `Ronda ${g7Idx + 1} de ${G7_ROUNDS.length}`;
+  document.getElementById('g7-category').textContent = r.category;
+  const shuffled = [...r.items].sort(() => Math.random() - 0.5);
+  const optsEl = document.getElementById('g7-options');
+  optsEl.innerHTML = shuffled.map(item =>
+    `<button class="btn-intruso" onclick="answerIntruso('${item.replace(/'/g,"\\'")}', this)">${item}</button>`
+  ).join('');
+  document.getElementById('g7-feedback').className = 'intruso-feedback';
+  document.getElementById('g7-next').classList.remove('show');
+}
+
+function answerIntruso(item, btn) {
+  const r = G7_ROUNDS[g7Idx];
+  document.querySelectorAll('.btn-intruso').forEach(b => b.disabled = true);
+  const fb = document.getElementById('g7-feedback');
+  fb.className = 'intruso-feedback show';
+  if (item === r.intruso) {
+    g7Score++; btn.classList.add('correct');
+    fb.className += ' feedback-correct';
+    fb.innerHTML = `✓ ¡Correcto! <em>${r.intruso}</em> es el intruso. ${r.exp}`;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.btn-intruso').forEach(b => { if (b.textContent === r.intruso) b.classList.add('correct'); });
+    fb.className += ' feedback-wrong';
+    fb.innerHTML = `✗ No era ese. El intruso era <em>${r.intruso}</em>. ${r.exp}`;
+  }
+  document.getElementById('g7-score').textContent = `${g7Score} / 6`;
+  if (g7Idx < G7_ROUNDS.length - 1) {
+    document.getElementById('g7-next').classList.add('show');
+  } else {
+    document.getElementById('g7-next').textContent = 'Ver resultado final';
+    document.getElementById('g7-next').classList.add('show');
+    document.getElementById('g7-next').onclick = endIntruso;
+  }
+}
+
+function nextIntruso() {
+  g7Idx++;
+  showIntruso();
+}
+
+function endIntruso() {
+  document.getElementById('g7-next').classList.remove('show');
+  const res = document.getElementById('g7-result');
+  res.classList.add('show');
+  document.getElementById('g7-result-score').textContent = `${g7Score} / 6`;
+  const msgs = ['¡No te rindas! Repasa el material y vuelve a intentarlo.', 'Bien hecho. Estás construyendo un buen conocimiento del período.', '¡Fantástico! Detectas los intrusos históricos con gran precisión.'];
+  document.getElementById('g7-result-msg').textContent = msgs[Math.min(Math.floor(g7Score / 2.1), 2)];
+}
+
+// ============================================================
+// GAME 8 — SOPA DE LETRAS
+// ============================================================
+const G8_WORDS = ["PROTECTORADO", "ANNUAL", "MARRUECOS", "TETUAN", "RIF", "CEUTA", "MELILLA", "ABDELKRIM"];
+const G8_ROWS = 13, G8_COLS = 15;
+let g8Grid = [], g8FirstClick = null, g8FoundWords = new Set();
+
+function initGame8() {
+  g8Grid = Array.from({length: G8_ROWS}, () => Array(G8_COLS).fill(''));
+  g8FirstClick = null;
+  g8FoundWords = new Set();
+  document.getElementById('g8-found').textContent = '0 / 8 encontradas';
+  document.getElementById('g8-win').className = 'timeline-feedback';
+
+  // Place words
+  const placements = [];
+  const dirs = [[0,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[1,-1],[-1,1]]; // 8 directions
+
+  for (const word of G8_WORDS) {
+    let placed = false, attempts = 0;
+    while (!placed && attempts < 300) {
+      attempts++;
+      const dir = dirs[Math.floor(Math.random() * 4)]; // prefer horizontal/vertical/diagonal-right
+      const r = Math.floor(Math.random() * G8_ROWS);
+      const c = Math.floor(Math.random() * G8_COLS);
+      const endR = r + dir[0] * (word.length - 1);
+      const endC = c + dir[1] * (word.length - 1);
+      if (endR < 0 || endR >= G8_ROWS || endC < 0 || endC >= G8_COLS) continue;
+      let ok = true;
+      for (let i = 0; i < word.length; i++) {
+        const gr = r + dir[0] * i, gc = c + dir[1] * i;
+        if (g8Grid[gr][gc] !== '' && g8Grid[gr][gc] !== word[i]) { ok = false; break; }
+      }
+      if (ok) {
+        for (let i = 0; i < word.length; i++) {
+          g8Grid[r + dir[0] * i][c + dir[1] * i] = word[i];
+        }
+        placements.push({word, r, c, dr: dir[0], dc: dir[1]});
+        placed = true;
+      }
+    }
+  }
+
+  // Fill remaining cells
+  const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  for (let r = 0; r < G8_ROWS; r++)
+    for (let c = 0; c < G8_COLS; c++)
+      if (!g8Grid[r][c]) g8Grid[r][c] = alpha[Math.floor(Math.random() * alpha.length)];
+
+  // Render grid
+  const gridEl = document.getElementById('g8-grid');
+  gridEl.style.gridTemplateColumns = `repeat(${G8_COLS}, 34px)`;
+  gridEl.innerHTML = '';
+  for (let r = 0; r < G8_ROWS; r++) {
+    for (let c = 0; c < G8_COLS; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'ws-cell';
+      cell.textContent = g8Grid[r][c];
+      cell.dataset.r = r; cell.dataset.c = c;
+      cell.addEventListener('click', () => wsClick(r, c, cell));
+      gridEl.appendChild(cell);
+    }
+  }
+
+  // Store placements for checking
+  gridEl._placements = placements;
+
+  // Word list
+  const listEl = document.getElementById('g8-word-list');
+  listEl.innerHTML = G8_WORDS.map(w => `<li id="g8-word-${w}">${w}</li>`).join('');
+}
+
+function wsClick(r, c, cell) {
+  if (cell.classList.contains('found')) return;
+  if (!g8FirstClick) {
+    // deselect any previous selection
+    document.querySelectorAll('.ws-cell.selected').forEach(el => el.classList.remove('selected'));
+    g8FirstClick = { r, c, cell };
+    cell.classList.add('selected');
+  } else {
+    // Second click — check if they form a word
+    const r1 = g8FirstClick.r, c1 = g8FirstClick.c;
+    const dr = Math.sign(r - r1), dc = Math.sign(c - c1);
+    const len = Math.max(Math.abs(r - r1), Math.abs(c - c1)) + 1;
+    // Must be straight line
+    const straightH = r === r1;
+    const straightV = c === c1;
+    const straightD = Math.abs(r - r1) === Math.abs(c - c1);
+    if (!straightH && !straightV && !straightD) {
+      document.querySelectorAll('.ws-cell.selected').forEach(el => el.classList.remove('selected'));
+      g8FirstClick = null;
+      return;
+    }
+    // Build string
+    let word = '';
+    const cells = [];
+    for (let i = 0; i < len; i++) {
+      const gr = r1 + dr * i, gc = c1 + dc * i;
+      const el = document.querySelector(`[data-r="${gr}"][data-c="${gc}"]`);
+      word += g8Grid[gr][gc];
+      cells.push(el);
+    }
+    const rev = word.split('').reverse().join('');
+    let found = null;
+    if (G8_WORDS.includes(word) && !g8FoundWords.has(word)) found = word;
+    else if (G8_WORDS.includes(rev) && !g8FoundWords.has(rev)) found = rev;
+
+    document.querySelectorAll('.ws-cell.selected').forEach(el => el.classList.remove('selected'));
+
+    if (found) {
+      g8FoundWords.add(found);
+      cells.forEach(el => el.classList.add('found'));
+      const li = document.getElementById(`g8-word-${found}`);
+      if (li) li.classList.add('found');
+      document.getElementById('g8-found').textContent = `${g8FoundWords.size} / 8 encontradas`;
+      if (g8FoundWords.size === G8_WORDS.length) {
+        const win = document.getElementById('g8-win');
+        win.className = 'timeline-feedback show feedback-correct';
+        win.textContent = '✓ ¡Enhorabuena! Has encontrado todas las palabras.';
+      }
+    }
+    g8FirstClick = null;
+  }
+}
+
+// ============================================================
+// GAME SWITCHER
+// ============================================================
+function switchGame(n) {
+  document.querySelectorAll('.game-tab').forEach(t => t.classList.toggle('active', parseInt(t.dataset.game) === n));
+  document.querySelectorAll('.game-panel').forEach(p => p.classList.toggle('active', p.id === `game-${n}`));
+}
+
+// ============================================================
+// INIT ALL GAMES
+// ============================================================
+initGame1();
+initGame2();
+initGame3();
+initGame4();
+initGame5();
+initGame6();
+initGame7();
+initGame8();
+</script>
+</body>
+</html>

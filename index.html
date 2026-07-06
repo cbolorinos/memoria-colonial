@@ -3,416 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>El Protectorado Olvidado — Historia Colonial de España en Marruecos</title>
+<title>El pasado colonial de España en el norte de África: Un proyecto de memoria histórica — Historia Colonial de España en Marruecos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-<style>
-/* ===== RESET & VARIABLES ===== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --terra:       #833c30;
-  --terra-dark:  #612d24;
-  --terra-light: #a04e40;
-  --gold:        #b9917c;
-  --gold-light:  #d4b09e;
-  --gold-pale:   #ecddd5;
-  --bg:          #f4f0eb;
-  --bg-dark:     #e8e0d5;
-  --dark:        #1e3d47;
-  --dark-mid:    #2a5262;
-  --teal:        #366875;
-  --teal-light:  #4a8899;
-  --sand:        #e0cfc4;
-  --white:       #fdfaf7;
-  --font: 'Cairo', sans-serif;
-  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-}
-html { scroll-behavior: smooth; }
-body { font-family: var(--font); background: var(--bg); color: var(--dark); overflow-x: hidden; cursor: none; }
-a { text-decoration: none; color: inherit; }
-img { display: block; max-width: 100%; }
-button { border: none; background: none; cursor: none; font-family: inherit; }
-strong { font-weight: 600; }
-
-/* ===== CUSTOM CURSOR ===== */
-#cursor-dot, #cursor-ring {
-  position: fixed; top: 0; left: 0; z-index: 10000; pointer-events: none; border-radius: 50%;
-}
-#cursor-dot  { width: 8px; height: 8px; background: var(--terra); transform: translate(-50%,-50%); transition: transform .1s; }
-#cursor-ring { width: 36px; height: 36px; border: 1.5px solid var(--terra); transform: translate(-50%,-50%); transition: width .3s var(--ease), height .3s var(--ease), border-color .3s; opacity: .7; }
-body.hovering #cursor-ring { width: 56px; height: 56px; border-color: var(--gold); opacity: 1; }
-body.hovering #cursor-dot  { transform: translate(-50%,-50%) scale(0); }
-
-/* ===== LOADER ===== */
-#loader {
-  position: fixed; inset: 0; z-index: 9999;
-  background: var(--dark); display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transition: opacity .8s var(--ease), visibility .8s;
-}
-#loader.hidden { opacity: 0; visibility: hidden; }
-.loader-star { width: 80px; height: 80px; animation: starSpin 3s linear infinite; }
-.loader-star .star-outer { fill: var(--terra); }
-.loader-star .star-grid  { fill: none; stroke: var(--dark); stroke-width: 4; }
-@keyframes starSpin { to { transform: rotate(360deg); } }
-.loader-text {
-  margin-top: 24px; font-family: var(--font); font-weight: 300;
-  color: var(--sand); font-size: .78rem; letter-spacing: .3em; text-transform: uppercase;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
-
-/* ===== NAVIGATION ===== */
-#nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  padding: 0 48px; display: flex; align-items: center; justify-content: space-between;
-  height: 72px; transition: background .4s var(--ease), box-shadow .4s;
-}
-#nav.dark { background: rgba(30,61,71,.97); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(255,255,255,.06); }
-#nav.scrolled { background: rgba(30,61,71,.97); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(255,255,255,.06); }
-.nav-logo {
-  font-family: var(--font); font-weight: 700; font-size: 1rem; color: var(--white);
-  letter-spacing: .02em; display: flex; align-items: center; gap: 10px;
-  opacity: 0; animation: fadeIn 1s 2.5s forwards;
-}
-.nav-logo-mark { width: 26px; height: 26px; flex-shrink: 0; }
-.nav-links { display: flex; gap: 32px; list-style: none; opacity: 0; animation: fadeIn 1s 2.7s forwards; }
-.nav-link {
-  font-size: .72rem; letter-spacing: .15em; text-transform: uppercase;
-  color: rgba(253,250,246,.65); position: relative; padding-bottom: 3px; transition: color .3s;
-}
-.nav-link::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--gold); transition:width .35s var(--ease); }
-.nav-link:hover, .nav-link.active { color: var(--white); }
-.nav-link:hover::after, .nav-link.active::after { width: 100%; }
-.nav-hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; }
-.nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--white); transition: transform .3s, opacity .3s; }
-@keyframes fadeIn { to { opacity: 1; } }
-
-/* ===== PAGES ===== */
-.page { display: none; min-height: 100vh; }
-.page.active { display: block; }
-
-/* ===== HOME HERO ===== */
-#home-hero {
-  height: 100vh; min-height: 600px; background: var(--dark);
-  position: relative; display: flex; align-items: center; overflow: hidden;
-}
-.hero-pattern {
-  position: absolute; inset: 0; opacity: .1;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpolygon points='40,3.2 54.4,17.6 62.4,17.6 62.4,25.6 76.8,40 62.4,54.4 62.4,62.4 54.4,62.4 40,76.8 25.6,62.4 17.6,62.4 17.6,54.4 3.2,40 17.6,25.6 17.6,17.6 25.6,17.6' fill='%23b9917c'/%3E%3Cpolygon points='25.6,17.6 54.4,17.6 62.4,25.6 62.4,54.4 54.4,62.4 25.6,62.4 17.6,54.4 17.6,25.6' fill='none' stroke='%231e3d47' stroke-width='3'/%3E%3C/svg%3E");
-  background-size: 80px 80px; animation: patternDrift 20s linear infinite;
-}
-@keyframes patternDrift { to { background-position: 80px 80px; } }
-.hero-gradient { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(131,60,48,.22) 0%, transparent 70%), linear-gradient(160deg, rgba(54,104,117,.15) 0%, transparent 50%); }
-.hero-content { position: relative; z-index: 2; padding: 0 10vw; max-width: 900px; }
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 12px;
-  font-size: .7rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold);
-  margin-bottom: 28px; font-weight: 500;
-  opacity: 0; animation: slideUp .8s 2.4s var(--ease-out) forwards;
-}
-.hero-eyebrow::before { content:''; display:block; width:36px; height:1px; background:var(--gold); }
-.hero-title { font-weight: 700; font-size: clamp(2.8rem,6vw,5.5rem); line-height: 1.05; color: var(--white); margin-bottom: 24px; overflow: hidden; }
-.hero-title-line { display: block; opacity: 0; transform: translateY(110%); animation: lineReveal 1s var(--ease-out) forwards; }
-.hero-title-line:nth-child(1) { animation-delay: 2.5s; }
-.hero-title-line:nth-child(2) { animation-delay: 2.7s; }
-.hero-title-line:nth-child(3) { animation-delay: 2.9s; font-weight: 300; color: var(--gold-light); }
-@keyframes lineReveal { to { opacity:1; transform:translateY(0); } }
-@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-.hero-sub {
-  font-size: 1.05rem; color: rgba(253,250,246,.6); max-width: 520px; line-height: 1.8;
-  font-weight: 300; opacity: 0; animation: slideUp .9s 3.1s var(--ease-out) forwards;
-}
-.hero-cta {
-  display: inline-flex; align-items: center; gap: 12px; margin-top: 44px;
-  padding: 13px 30px; border: 1px solid rgba(185,145,124,.4); color: var(--gold-light);
-  font-size: .75rem; letter-spacing: .15em; text-transform: uppercase; font-weight: 600;
-  transition: background .3s, border-color .3s, color .3s;
-  opacity: 0; animation: slideUp .9s 3.3s var(--ease-out) forwards;
-}
-.hero-cta:hover { background: var(--terra); border-color: var(--terra); color: var(--white); }
-.hero-cta svg { transition: transform .3s var(--ease); }
-.hero-cta:hover svg { transform: translateX(6px); }
-.hero-scroll {
-  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  color: rgba(253,250,246,.3); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
-  opacity: 0; animation: fadeIn 1s 3.8s forwards;
-}
-.scroll-line { width: 1px; height: 56px; background: linear-gradient(to bottom, rgba(185,145,124,.8), transparent); animation: scrollLine 2s ease-in-out infinite; }
-@keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform:scaleY(1);transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
-
-/* ===== HOME INTRO ===== */
-.home-intro { padding: 112px 10vw; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
-.intro-label { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--terra); margin-bottom: 18px; font-weight: 600; }
-.intro-heading { font-weight: 700; font-size: clamp(1.7rem,3vw,2.5rem); line-height: 1.2; margin-bottom: 22px; color: var(--dark); }
-.intro-body { font-size: .95rem; line-height: 1.85; color: var(--dark-mid); font-weight: 400; }
-.intro-body + .intro-body { margin-top: 14px; }
-.intro-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-.intro-stat {
-  background: var(--dark); color: var(--white); padding: 32px 24px;
-  position: relative; overflow: hidden; transition: background .4s;
-}
-.intro-stat:hover { background: var(--terra-dark); }
-.intro-stat::before { content:''; position:absolute; top:0; left:0; width:3px; height:0; background:var(--gold); transition:height .5s var(--ease-out); }
-.intro-stat:hover::before { height: 100%; }
-.stat-num { font-weight: 700; font-size: 2.6rem; color: var(--gold-light); line-height: 1; margin-bottom: 8px; }
-.stat-label { font-size: .75rem; color: rgba(253,250,246,.55); line-height: 1.5; font-weight: 300; }
-
-/* ===== SESSION CARDS ===== */
-.sessions-section { padding: 72px 10vw 112px; background: var(--dark); }
-.section-header { margin-bottom: 52px; }
-.section-label { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
-.section-title { font-weight: 700; font-size: clamp(1.5rem,3vw,2.3rem); color: var(--white); margin-top: 10px; }
-.sessions-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; }
-.session-card {
-  position: relative; overflow: hidden; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
-  padding: 36px 24px 32px; cursor: none; min-height: 300px;
-  display: flex; flex-direction: column; justify-content: space-between;
-  transition: background .4s, border-color .4s;
-}
-.session-card::before { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(to right,var(--terra),var(--gold)); transform:scaleX(0); transform-origin:left; transition:transform .5s var(--ease-out); }
-.session-card:hover { background: rgba(255,255,255,.07); border-color: rgba(185,145,124,.2); }
-.session-card:hover::before { transform: scaleX(1); }
-.card-num { font-weight: 700; font-size: 3.6rem; color: rgba(185,145,124,.12); line-height: 1; margin-bottom: 18px; transition: color .4s; }
-.session-card:hover .card-num { color: rgba(185,145,124,.28); }
-.card-tag { font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; font-weight: 600; }
-.card-title { font-weight: 600; font-size: 1.05rem; color: var(--white); line-height: 1.35; margin-bottom: 14px; }
-.card-desc { font-size: .8rem; color: rgba(253,250,246,.45); line-height: 1.7; flex: 1; font-weight: 300; }
-.card-arrow { display:inline-flex; align-items:center; gap:8px; margin-top:24px; font-size:.68rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); transition:gap .3s var(--ease); font-weight:600; }
-.session-card:hover .card-arrow { gap: 14px; }
-
-/* ===== QUOTE SECTION ===== */
-.quote-section { padding: 112px 10vw; background: var(--bg-dark); position: relative; overflow: hidden; }
-.quote-section::before { content:'"'; position:absolute; top:-60px; left:8vw; font-size:28rem; color:rgba(131,60,48,.05); line-height:1; pointer-events:none; font-weight:900; }
-.quote-text { font-weight: 300; font-size: clamp(1.4rem,3.2vw,2.6rem); line-height: 1.5; color: var(--dark); max-width: 800px; margin: 0 auto; text-align: center; }
-.quote-text em { color: var(--terra); font-style: normal; font-weight: 700; }
-.quote-attr { text-align:center; margin-top:32px; font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(30,61,71,.4); font-weight:500; }
-
-/* ===== REVEAL ANIMATIONS ===== */
-.reveal        { opacity:0; transform:translateY(40px);  transition:opacity .9s var(--ease-out), transform .9s var(--ease-out); }
-.reveal-left   { opacity:0; transform:translateX(-40px); transition:opacity .9s var(--ease-out), transform .9s var(--ease-out); }
-.reveal-right  { opacity:0; transform:translateX(40px);  transition:opacity .9s var(--ease-out), transform .9s var(--ease-out); }
-.reveal.visible,.reveal-left.visible,.reveal-right.visible { opacity:1; transform:none; }
-[data-delay='1']{transition-delay:.1s}[data-delay='2']{transition-delay:.2s}
-[data-delay='3']{transition-delay:.3s}[data-delay='4']{transition-delay:.4s}
-
-/* ===== SLIDER ===== */
-.slider-wrapper { position:relative; height:100vh; min-height:600px; overflow:hidden; background:var(--dark); }
-.slide { position:absolute; inset:0; display:flex; align-items:center; opacity:0; visibility:hidden; transition:opacity .9s var(--ease-out); overflow:hidden; }
-.slide.active  { opacity:1; visibility:visible; z-index:2; }
-.slide.prev    { z-index:1; }
-.slide-bg { position:absolute; inset:0; background-size:cover; background-position:center; transform:scale(1.06); transition:transform 8s ease; }
-.slide.active .slide-bg { transform:scale(1); }
-.slide-overlay { position:absolute; inset:0; background:linear-gradient(110deg,rgba(30,61,71,.88) 0%,rgba(30,61,71,.55) 55%,rgba(30,61,71,.2) 100%); }
-.slide-overlay.heavy { background:linear-gradient(110deg,rgba(30,61,71,.93) 0%,rgba(30,61,71,.75) 60%,rgba(30,61,71,.5) 100%); }
-.slide-content { position:relative; z-index:3; padding:0 10vw; max-width:800px; transition: max-width .6s var(--ease-out); }
-
-/* ---- Foreground image pane ---- */
-/* Drop <div class="slide-fg"><img class="slide-img" src="…"></div>
-   anywhere inside a .slide to get a right-hand image column.          */
-.slide-fg {
-  position: absolute;
-  right: 8vw; top: 50%;
-  transform: translateY(-50%) translateX(48px);
-  z-index: 4;
-  width: 38%; max-width: 500px;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0;
-  transition: opacity .9s .45s var(--ease-out), transform .9s .45s var(--ease-out);
-  pointer-events: none;
-}
-.slide.active .slide-fg {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0);
-}
-/* When a foreground image is present, pull in the text so they don't overlap */
-.slide:has(.slide-fg) .slide-content { max-width: 50%; }
-.slide-img {
-  display: block; max-width: 100%; max-height: 62vh;
-  object-fit: contain;
-  filter: drop-shadow(0 16px 48px rgba(0,0,0,.5));
-}
-@media (max-width: 900px) {
-  .slide-fg { display: none; }
-  .slide:has(.slide-fg) .slide-content { max-width: 800px; }
-}
-
-/* Slide content animations */
-.slide-tag { display:inline-flex; align-items:center; gap:10px; font-size:.68rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; font-weight:600; opacity:0; transform:translateY(20px); transition:opacity .7s .2s var(--ease-out),transform .7s .2s var(--ease-out); }
-.slide.active .slide-tag { opacity:1; transform:translateY(0); }
-.slide-tag::before { content:''; display:block; width:28px; height:1px; background:var(--gold); }
-.slide-heading { font-weight:700; font-size:clamp(1.9rem,4vw,3.5rem); color:var(--white); line-height:1.1; margin-bottom:22px; opacity:0; transform:translateY(30px); transition:opacity .8s .35s var(--ease-out),transform .8s .35s var(--ease-out); }
-.slide.active .slide-heading { opacity:1; transform:translateY(0); }
-.slide-body { font-size:.95rem; color:rgba(253,250,246,.72); line-height:1.85; max-width:560px; font-weight:300; opacity:0; transform:translateY(20px); transition:opacity .8s .5s var(--ease-out),transform .8s .5s var(--ease-out); }
-.slide.active .slide-body { opacity:1; transform:translateY(0); }
-.slide-quote { margin-top:28px; padding-left:18px; border-left:2px solid var(--gold); font-size:1rem; color:rgba(253,250,246,.6); line-height:1.65; font-weight:300; opacity:0; transform:translateY(20px); transition:opacity .8s .65s var(--ease-out),transform .8s .65s var(--ease-out); }
-.slide.active .slide-quote { opacity:1; transform:translateY(0); }
-.slide-quote cite { display:block; margin-top:8px; font-style:normal; font-size:.72rem; letter-spacing:.1em; color:var(--gold); font-weight:500; }
-.slide-activity { margin-top:24px; padding:18px 22px; background:rgba(185,145,124,.12); border:1px solid rgba(185,145,124,.2); opacity:0; transform:translateY(20px); transition:opacity .8s .65s var(--ease-out),transform .8s .65s var(--ease-out); }
-.slide.active .slide-activity { opacity:1; transform:translateY(0); }
-.slide-activity-label { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; font-weight:600; }
-.slide-activity p { font-size:.85rem; color:rgba(253,250,246,.72); line-height:1.75; font-weight:300; }
-
-/* Slider controls */
-.slider-nav { position:absolute; bottom:44px; left:0; right:0; z-index:10; display:flex; align-items:center; justify-content:space-between; padding:0 10vw; }
-.slider-progress { display:flex; gap:8px; align-items:center; }
-.progress-dot { width:6px; height:6px; border-radius:50%; background:rgba(253,250,246,.22); transition:background .3s,width .4s var(--ease-out); cursor:none; }
-.progress-dot.active { width:24px; border-radius:3px; background:var(--gold); }
-.slider-buttons { display:flex; gap:10px; }
-.slider-btn { width:46px; height:46px; border:1px solid rgba(253,250,246,.18); display:flex; align-items:center; justify-content:center; color:rgba(253,250,246,.65); transition:background .3s,border-color .3s,color .3s; }
-.slider-btn:hover { background:var(--terra); border-color:var(--terra); color:var(--white); }
-.slider-count { font-size:.82rem; color:rgba(253,250,246,.35); font-weight:300; }
-.slider-count span { color:var(--gold-light); font-weight:700; }
-
-/* Slider session bar */
-.slider-session-bar { background:var(--dark); border-bottom:1px solid rgba(255,255,255,.07); padding:16px 10vw; display:flex; align-items:center; justify-content:space-between; }
-.session-bar-title { font-weight:700; font-size:.95rem; color:var(--white); }
-.session-bar-sub { font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-top:2px; font-weight:600; }
-.back-link { display:inline-flex; align-items:center; gap:8px; font-size:.68rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(253,250,246,.45); transition:color .3s; font-weight:500; }
-.back-link:hover { color:var(--gold); }
-
-/* ===== SESSION 3/4 PAGES ===== */
-.session-hero {
-  min-height: 52vh; background: var(--dark); display: flex; align-items: flex-end;
-  padding: 0 10vw 56px; position: relative; overflow: hidden;
-}
-.session-hero-pattern { position:absolute; inset:0; opacity:.08; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cpolygon points='50,4 68,22 78,22 78,32 96,50 78,68 78,78 68,78 50,96 32,78 22,78 22,68 4,50 22,32 22,22 32,22' fill='%23b9917c'/%3E%3Cpolygon points='32,22 68,22 78,32 78,68 68,78 32,78 22,68 22,32' fill='none' stroke='%231e3d47' stroke-width='4'/%3E%3C/svg%3E"); background-size:100px 100px; }
-.session-hero-num { position:absolute; right:10vw; bottom:30px; font-weight:900; font-size:13rem; color:rgba(185,145,124,.06); line-height:1; pointer-events:none; user-select:none; }
-.session-hero-eyebrow { font-size:.68rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; display:flex; align-items:center; gap:12px; font-weight:600; }
-.session-hero-eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--gold); }
-.session-hero-title { font-weight:700; font-size:clamp(2rem,5vw,3.8rem); color:var(--white); line-height:1.1; }
-.session-hero-title em { font-style:normal; font-weight:300; color:var(--gold-light); }
-.session-body { padding: 72px 10vw; }
-.session-intro { max-width: 700px; margin-bottom: 64px; }
-.session-intro-text { font-size: 1.05rem; line-height: 1.85; color: var(--dark-mid); font-weight: 400; }
-.objectives-box { background:var(--dark); color:var(--white); padding:44px; margin-bottom:56px; position:relative; overflow:hidden; }
-.objectives-box::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background:linear-gradient(to bottom,var(--terra),var(--gold)); }
-.objectives-label { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; font-weight:600; }
-.objectives-list { list-style:none; display:flex; flex-direction:column; gap:14px; }
-.objectives-list li { display:flex; gap:14px; font-size:.92rem; line-height:1.6; color:rgba(253,250,246,.78); font-weight:300; }
-.objectives-list li::before { content:'→'; color:var(--gold); flex-shrink:0; margin-top:1px; }
-.content-block { margin-bottom: 56px; }
-.block-label { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--terra); margin-bottom:12px; display:flex; align-items:center; gap:12px; font-weight:600; }
-.block-label::after { content:''; flex:1; height:1px; background:var(--sand); }
-.block-title { font-weight:700; font-size:clamp(1.3rem,2.5vw,1.9rem); color:var(--dark); margin-bottom:18px; }
-.block-text { font-size:.92rem; line-height:1.85; color:var(--dark-mid); max-width:680px; font-weight:400; }
-.activity-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2px; margin-top:28px; }
-.activity-card { background:var(--bg-dark); padding:28px 24px; border:1px solid var(--sand); transition:border-color .3s,background .3s,transform .3s var(--ease); }
-.activity-card:hover { background:var(--white); border-color:var(--terra); transform:translateY(-4px); }
-.activity-icon { font-size:1.4rem; margin-bottom:14px; }
-.activity-card h4 { font-weight:700; font-size:.92rem; margin-bottom:8px; color:var(--dark); }
-.activity-card p { font-size:.8rem; line-height:1.7; color:var(--dark-mid); font-weight:300; }
-.session-nav-strip { border-top:1px solid var(--sand); padding:44px 10vw; display:flex; justify-content:space-between; align-items:center; background:var(--white); }
-.session-next-btn { display:inline-flex; align-items:center; gap:12px; padding:13px 28px; background:var(--dark); color:var(--white); font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; font-weight:600; transition:background .3s; }
-.session-next-btn:hover { background:var(--terra); }
-.timeline { position:relative; padding-left:36px; margin-top:36px; }
-.timeline::before { content:''; position:absolute; left:7px; top:0; bottom:0; width:1px; background:linear-gradient(to bottom,var(--terra),var(--gold),transparent); }
-.timeline-item { margin-bottom:36px; position:relative; }
-.timeline-item::before { content:''; position:absolute; left:-33px; top:5px; width:10px; height:10px; border-radius:50%; background:var(--terra); border:2px solid var(--bg); box-shadow:0 0 0 2px var(--terra); }
-.timeline-year { font-size:.68rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom:5px; font-weight:600; }
-.timeline-event { font-weight:700; font-size:.95rem; color:var(--dark); margin-bottom:5px; }
-.timeline-desc { font-size:.83rem; color:var(--dark-mid); line-height:1.65; font-weight:300; }
-
-/* ===== ABOUT PAGE ===== */
-.about-hero { min-height:56vh; background:var(--dark); display:flex; align-items:center; padding:88px 10vw 64px; position:relative; overflow:hidden; }
-.about-body { display:grid; grid-template-columns:1.3fr 1fr; gap:72px; padding:88px 10vw; align-items:start; }
-.about-text p { font-size:.95rem; line-height:1.85; color:var(--dark-mid); margin-bottom:18px; font-weight:400; }
-.about-sidebar { position:sticky; top:96px; }
-.about-feature { padding:28px; background:var(--dark); color:var(--white); margin-bottom:2px; transition:background .3s; }
-.about-feature:hover { background:var(--terra-dark); }
-.about-feature-icon { font-size:1.6rem; margin-bottom:12px; }
-.about-feature h4 { font-weight:700; font-size:.9rem; color:var(--gold-light); margin-bottom:7px; }
-.about-feature p { font-size:.78rem; color:rgba(253,250,246,.55); line-height:1.7; font-weight:300; }
-
-/* ===== RESOURCES PAGE ===== */
-.resources-hero { min-height:48vh; background:var(--dark); display:flex; align-items:flex-end; padding:88px 10vw 56px; position:relative; overflow:hidden; }
-.resources-body { padding:72px 10vw; }
-.resource-category { margin-bottom:64px; }
-.resource-category-label { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--terra); display:flex; align-items:center; gap:12px; margin-bottom:28px; font-weight:600; }
-.resource-category-label::after { content:''; flex:1; height:1px; background:var(--sand); }
-.resource-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:2px; }
-.resource-item { padding:26px; background:var(--white); border:1px solid var(--sand); transition:border-color .3s,transform .3s var(--ease); }
-.resource-item:hover { border-color:var(--terra); transform:translateY(-4px); }
-.resource-type { font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom:7px; font-weight:600; }
-.resource-title { font-weight:700; font-size:.92rem; color:var(--dark); margin-bottom:5px; line-height:1.4; }
-.resource-author { font-size:.75rem; color:rgba(30,61,71,.45); margin-bottom:9px; font-weight:300; }
-.resource-desc { font-size:.78rem; color:var(--dark-mid); line-height:1.65; font-weight:300; }
-.resource-link { display:inline-flex; align-items:center; gap:6px; margin-top:10px; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--terra); font-weight:600; transition:color .3s; }
-.resource-link:hover { color:var(--terra-dark); }
-
-/* ===== CONTACT PAGE ===== */
-.contact-hero { min-height:48vh; background:var(--dark); display:flex; align-items:flex-end; padding:88px 10vw 56px; position:relative; overflow:hidden; }
-.contact-body { padding:72px 10vw; display:grid; grid-template-columns:1fr 1fr; gap:72px; }
-.contact-intro p { font-size:.95rem; line-height:1.85; color:var(--dark-mid); margin-bottom:16px; font-weight:400; }
-.contact-persons { display:flex; flex-direction:column; gap:2px; margin-top:36px; }
-.contact-person { padding:28px; background:var(--dark); color:var(--white); transition:background .3s; }
-.contact-person:hover { background:var(--terra-dark); }
-.contact-person-name { font-weight:700; font-size:1rem; color:var(--white); margin-bottom:4px; }
-.contact-person-role { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; font-weight:600; }
-.contact-person-detail { font-size:.82rem; color:rgba(253,250,246,.55); line-height:1.6; font-weight:300; }
-.contact-form { background:var(--white); padding:48px; border:1px solid var(--sand); }
-.form-label { font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--teal); margin-bottom:8px; display:block; font-weight:600; }
-.form-input, .form-textarea {
-  width:100%; padding:12px 16px; border:1px solid var(--sand); background:var(--bg);
-  font-family:var(--font); font-size:.9rem; color:var(--dark); outline:none;
-  transition:border-color .3s; margin-bottom:20px; font-weight:400;
-}
-.form-input:focus, .form-textarea:focus { border-color:var(--teal); }
-.form-textarea { min-height:140px; resize:vertical; }
-.form-btn {
-  width:100%; padding:14px; background:var(--terra); color:var(--white);
-  font-family:var(--font); font-size:.8rem; letter-spacing:.2em; text-transform:uppercase;
-  font-weight:700; transition:background .3s; cursor:none;
-}
-.form-btn:hover { background:var(--terra-dark); }
-.form-note { font-size:.75rem; color:rgba(30,61,71,.4); margin-top:12px; line-height:1.6; font-weight:300; }
-
-/* ===== MOROCCAN DIVIDER ===== */
-.moroccan-divider { display:flex; align-items:center; justify-content:center; padding:20px 0; gap:18px; }
-.moroccan-divider::before,.moroccan-divider::after { content:''; flex:1; height:1px; background:var(--sand); }
-.divider-star { width:28px; height:28px; color:var(--gold); opacity:.8; }
-
-/* ===== FOOTER ===== */
-footer { background:var(--dark); color:rgba(253,250,246,.45); padding:56px 10vw 36px; }
-.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:52px; margin-bottom:48px; }
-.footer-brand { font-weight:700; font-size:1.3rem; color:var(--white); margin-bottom:14px; }
-.footer-tagline { font-size:.83rem; color:rgba(253,250,246,.35); line-height:1.65; font-weight:300; }
-.footer-nav-label { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; font-weight:600; }
-.footer-nav-links { list-style:none; display:flex; flex-direction:column; gap:9px; }
-.footer-nav-links a { font-size:.82rem; color:rgba(253,250,246,.38); transition:color .3s; font-weight:300; }
-.footer-nav-links a:hover { color:var(--white); }
-.footer-bottom { border-top:1px solid rgba(255,255,255,.06); padding-top:24px; display:flex; justify-content:space-between; font-size:.72rem; }
-.footer-geo-mark { display:flex; align-items:center; gap:7px; color:rgba(253,250,246,.25); }
-
-/* ===== MOBILE MENU ===== */
-.mobile-menu { position:fixed; inset:0; z-index:999; background:var(--dark); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px; transform:translateY(-100%); transition:transform .5s var(--ease-out); }
-.mobile-menu.open { transform:translateY(0); }
-.mobile-menu a { font-weight:700; font-size:1.8rem; color:rgba(253,250,246,.65); transition:color .3s; }
-.mobile-menu a:hover { color:var(--gold-light); }
-.mobile-close { position:absolute; top:24px; right:24px; font-size:1.4rem; color:rgba(253,250,246,.4); padding:8px; }
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:1024px){
-  .sessions-grid{grid-template-columns:repeat(2,1fr)}
-  .home-intro{grid-template-columns:1fr;gap:44px}
-  .about-body{grid-template-columns:1fr}
-  .about-sidebar{position:static}
-  .footer-grid{grid-template-columns:1fr 1fr}
-  .contact-body{grid-template-columns:1fr}
-}
-@media(max-width:768px){
-  #nav{padding:0 24px}
-  .nav-links{display:none}
-  .nav-hamburger{display:flex}
-  .sessions-grid{grid-template-columns:1fr}
-  .hero-content,.session-body,.about-body,.resources-body,.contact-body,.sessions-section,.quote-section,.home-intro{padding-left:6vw;padding-right:6vw}
-  .footer-grid{grid-template-columns:1fr;gap:36px}
-  .intro-stat-grid{grid-template-columns:1fr}
-  .slider-nav{padding:0 6vw}
-}
-</style>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
@@ -422,751 +18,129 @@ footer { background:var(--dark); color:rgba(253,250,246,.45); padding:56px 10vw 
 
 <!-- Loader -->
 <div id="loader">
-  <svg class="loader-star" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <polygon class="star-outer" points="50,4 68,22 78,22 78,32 96,50 78,68 78,78 68,78 50,96 32,78 22,78 22,68 4,50 22,32 22,22 32,22"/>
-    <polygon class="star-grid"  points="32,22 68,22 78,32 78,68 68,78 32,78 22,68 22,32"/>
-  </svg>
-  <div class="loader-text">Cargando — El Protectorado Olvidado</div>
+  <img class="loader-star" src="img/logo.svg" alt="">
+  <div class="loader-text">Cargando — El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</div>
 </div>
 
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" id="mobileClose">✕</button>
-  <a href="#" data-page="home">Inicio</a>
-  <a href="#" data-page="s1">Sesión 1</a>
-  <a href="#" data-page="s2">Sesión 2</a>
-  <a href="#" data-page="s3">Sesión 3</a>
-  <a href="#" data-page="s4">Sesión 4</a>
-  <a href="#" data-page="about">El Proyecto</a>
-  <a href="#" data-page="resources">Recursos</a>
-  <a href="#" data-page="contact">Contacto</a>
+  <a href="index.html">Inicio</a>
+  <a href="s1.html">Sesión 1</a>
+  <a href="s2.html">Sesión 2</a>
+  <a href="s3.html">Sesión 3</a>
+  <a href="s4.html">Sesión 4</a>
+  <a href="about.html">El Proyecto</a>
+  <a href="resources.html">Recursos</a>
+  <a href="juegos.html">Juegos</a>
+  <a href="contact.html">Contacto</a>
 </div>
 
 <!-- Navigation -->
 <nav id="nav">
-  <a href="#" class="nav-logo" data-page="home">
-    <svg class="nav-logo-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="50,4 68,22 78,22 78,32 96,50 78,68 78,78 68,78 50,96 32,78 22,78 22,68 4,50 22,32 22,22 32,22" fill="#b9917c"/>
-      <polygon points="32,22 68,22 78,32 78,68 68,78 32,78 22,68 22,32" fill="none" stroke="#1e3d47" stroke-width="5"/>
-    </svg>
-    El Protectorado Olvidado
+  <a href="index.html" class="nav-logo">
+    <img class="nav-logo-mark" src="img/logo.svg" alt="Logo" style="filter: invert(1);">
+    España en el norte de África
   </a>
   <ul class="nav-links">
-    <li><a href="#" class="nav-link active" data-page="home">Inicio</a></li>
-    <li><a href="#" class="nav-link" data-page="s1">Sesión 1</a></li>
-    <li><a href="#" class="nav-link" data-page="s2">Sesión 2</a></li>
-    <li><a href="#" class="nav-link" data-page="s3">Sesión 3</a></li>
-    <li><a href="#" class="nav-link" data-page="s4">Sesión 4</a></li>
-    <li><a href="#" class="nav-link" data-page="about">El Proyecto</a></li>
-    <li><a href="#" class="nav-link" data-page="resources">Recursos</a></li>
-    <li><a href="#" class="nav-link" data-page="contact">Contacto</a></li>
+    <li><a href="index.html" class="nav-link active">Inicio</a></li>
+    <li><a href="s1.html" class="nav-link">Sesión 1</a></li>
+    <li><a href="s2.html" class="nav-link">Sesión 2</a></li>
+    <li><a href="s3.html" class="nav-link">Sesión 3</a></li>
+    <li><a href="s4.html" class="nav-link">Sesión 4</a></li>
+    <li><a href="about.html" class="nav-link">El Proyecto</a></li>
+    <li><a href="resources.html" class="nav-link">Recursos</a></li>
+    <li><a href="juegos.html" class="nav-link">Juegos</a></li>
+    <li><a href="contact.html" class="nav-link">Contacto</a></li>
   </ul>
   <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- ========== HOME ========== -->
-<div class="page active" id="page-home">
-  <section id="home-hero">
-    <div class="hero-pattern"></div>
-    <div class="hero-gradient"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">Taller Educativo · Historia Colonial</div>
-      <h1 class="hero-title">
-        <span class="hero-title-line">El Protectorado</span>
-        <span class="hero-title-line">Olvidado</span>
-        <span class="hero-title-line">España en Marruecos</span>
-      </h1>
-      <p class="hero-sub">Un taller para explorar la historia colonial de España en el norte de África, sus memorias, y las huellas que dejó en ambos países.</p>
-      <a href="#" class="hero-cta" data-page="s1">Comenzar el taller <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
-    </div>
-    <div class="hero-scroll"><div class="scroll-line"></div>Desplaza</div>
-  </section>
-
-  <section class="home-intro">
-    <div class="reveal-left">
-      <div class="intro-label">Contexto histórico</div>
-      <h2 class="intro-heading">Un capítulo silenciado de la historia española</h2>
-      <p class="intro-body">Entre 1912 y 1956, España gobernó el norte de Marruecos como protectorado colonial. Esta experiencia —marcada por la guerra del Rif, el desastre de Annual, y el encuentro entre culturas— rara vez aparece en los libros de texto españoles.</p>
-      <p class="intro-body">Este taller invita al alumnado a explorar ese pasado a través de fuentes primarias, a reflexionar sobre qué significa la memoria histórica, y a imaginar cómo podríamos recordar ese legado hoy.</p>
-    </div>
-    <div class="reveal-right">
-      <div class="intro-stat-grid">
-        <div class="intro-stat reveal" data-delay="1"><div class="stat-num">44</div><div class="stat-label">años de presencia colonial española en Marruecos</div></div>
-        <div class="intro-stat reveal" data-delay="2"><div class="stat-num">4</div><div class="stat-label">sesiones de clase para explorar esta historia</div></div>
-        <div class="intro-stat reveal" data-delay="3"><div class="stat-num">1921</div><div class="stat-label">Desastre de Annual — más de 8.000 soldados muertos</div></div>
-        <div class="intro-stat reveal" data-delay="4"><div class="stat-num">1956</div><div class="stat-label">Independencia de Marruecos — fin del protectorado</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sessions-section">
-    <div class="section-header reveal">
-      <div class="section-label">El Taller</div>
-      <h2 class="section-title">Cuatro sesiones, una historia compartida</h2>
-    </div>
-    <div class="sessions-grid">
-      <div class="session-card reveal" data-delay="1" data-page="s1">
-        <div><div class="card-num">01</div><div class="card-tag">Fuentes primarias</div><h3 class="card-title">Colonización del Norte de África</h3><p class="card-desc">Fotografías, documentales y testimonios de la época colonial. Fuentes primarias sobre el protectorado, la guerra del Rif y el discurso del "hermanamiento".</p></div>
-        <div class="card-arrow">Ver sesión <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      </div>
-      <div class="session-card reveal" data-delay="2" data-page="s2">
-        <div><div class="card-num">02</div><div class="card-tag">Memoria histórica</div><h3 class="card-title">¿Qué recordamos y por qué?</h3><p class="card-desc">Conversación colectiva sobre la memoria histórica. Análisis de monumentos y ejemplos de conmemoración. Introducción al proyecto del taller.</p></div>
-        <div class="card-arrow">Ver sesión <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      </div>
-      <div class="session-card reveal" data-delay="3" data-page="s3">
-        <div><div class="card-num">03</div><div class="card-tag">Taller en grupos</div><h3 class="card-title">Diseñando la Memoria</h3><p class="card-desc">Los grupos preparan su propuesta: un monumento, exposición, festival u otro objeto de memoria histórica sobre el pasado colonial de España en el norte de África.</p></div>
-        <div class="card-arrow">Ver sesión <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      </div>
-      <div class="session-card reveal" data-delay="4" data-page="s4">
-        <div><div class="card-num">04</div><div class="card-tag">Presentaciones</div><h3 class="card-title">Compartiendo Nuestra Memoria</h3><p class="card-desc">Cada grupo presenta su proyecto ante la clase. Reflexión colectiva final sobre lo aprendido y la importancia de construir memoria histórica.</p></div>
-        <div class="card-arrow">Ver sesión <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="quote-section">
-    <div class="moroccan-divider"><svg class="divider-star" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,4 68,22 78,22 78,32 96,50 78,68 78,78 68,78 50,96 32,78 22,78 22,68 4,50 22,32 22,22 32,22" fill="currentColor"/><polygon points="32,22 68,22 78,32 78,68 68,78 32,78 22,68 22,32" fill="none" stroke="var(--bg-dark)" stroke-width="5"/></svg></div>
-    <blockquote class="quote-text reveal">"La historia tiene mucho que ver con la identidad, con las formas en que la sociedad se define cara al futuro <em>además del pasado.</em>"</blockquote>
-    <p class="quote-attr reveal" data-delay="2">— Elisabeth Bolorinos Allard, Universidad de Bristol</p>
-    <div class="moroccan-divider" style="margin-top:40px"><svg class="divider-star" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,4 68,22 78,22 78,32 96,50 78,68 78,78 68,78 50,96 32,78 22,78 22,68 4,50 22,32 22,22 32,22" fill="currentColor"/><polygon points="32,22 68,22 78,32 78,68 68,78 32,78 22,68 22,32" fill="none" stroke="var(--bg-dark)" stroke-width="5"/></svg></div>
-  </section>
-
-  <footer>
-    <div class="footer-grid">
-      <div><div class="footer-brand">El Protectorado Olvidado</div><p class="footer-tagline">Un recurso educativo para explorar la historia colonial de España en Marruecos (1912–1956) a través de fuentes primarias, debate y creación colectiva.</p></div>
-      <div><div class="footer-nav-label">El Taller</div><ul class="footer-nav-links"><li><a href="#" data-page="s1">Sesión 1 — Fuentes Primarias</a></li><li><a href="#" data-page="s2">Sesión 2 — Memoria Histórica</a></li><li><a href="#" data-page="s3">Sesión 3 — Taller en Grupos</a></li><li><a href="#" data-page="s4">Sesión 4 — Presentaciones</a></li></ul></div>
-      <div><div class="footer-nav-label">Más información</div><ul class="footer-nav-links"><li><a href="#" data-page="about">Sobre el proyecto</a></li><li><a href="#" data-page="resources">Recursos adicionales</a></li><li><a href="#" data-page="contact">Contacto</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><span>© 2026 El Protectorado Olvidado</span><div class="footer-geo-mark"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>España — Marruecos</div></div>
-  </footer>
-</div>
-
-<!-- ========== SESSION 1 (SLIDER) ========== -->
-<div class="page" id="page-s1">
-  <div class="slider-session-bar" style="padding-top:88px">
-    <div><div class="session-bar-sub">Sesión 01 · Fuentes Primarias</div><div class="session-bar-title">La Colonización del Norte de África</div></div>
-    <a href="#" class="back-link" data-page="home"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L8 3M3 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Volver al inicio</a>
+<!-- HOME HERO -->
+<section id="home-hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Taller Educativo · Historia Colonial</div>
+    <h1 class="hero-title">
+      <span class="hero-title-line">El pasado colonial de</span>
+      <span class="hero-title-line">España en el norte de África</span>
+      <span class="hero-title-line">Un proyecto de memoria histórica</span>
+    </h1>
+    <p class="hero-sub">Un taller para explorar la historia colonial de España en el norte de África, sus memorias, y las huellas que dejó en ambos países.</p>
+    <a href="s1.html" class="hero-cta">Comenzar el taller <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
   </div>
-  <div class="slider-wrapper" id="slider1">
+  <div class="hero-scroll"><div class="scroll-line"></div>Desplaza</div>
+</section>
 
-    <div class="slide active" data-slide="0">
-      <div class="slide-bg" style="background-image:url('img/s1_slide1_bg.jpg');background-position:center top;"></div>
-      <div class="slide-overlay"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Sesión 01 · Introducción</div>
-        <h2 class="slide-heading">El pasado colonial de España en el norte de África</h2>
-        <p class="slide-body">Una propuesta de memoria histórica para el aula. En esta sesión exploraremos la colonización española de Marruecos a través de fuentes primarias: fotografías, artículos de prensa, entrevistas con testigos, y testimonios literarios.</p>
-        <div class="slide-quote">"Para entender el presente, primero hay que mirar al pasado con honestidad."<cite>— Objetivo de la sesión</cite></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="1">
-      <div class="slide-bg" style="background-image:url('img/s1_slide2_bg.jpg');"></div>
-      <div class="slide-overlay heavy"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Cronología</div>
-        <h2 class="slide-heading">La colonización española de Marruecos</h2>
-        <p class="slide-body">Desde la Guerra de África (1859–1860) hasta la independencia de Marruecos (1956), España mantuvo una presencia colonial en el norte de África durante casi un siglo, marcada por guerras, resistencia y el discurso del "hermanamiento".</p>
-        <div class="slide-activity"><div class="slide-activity-label">Hitos clave</div><p>1859–60 Guerra de África · 1909 Barranco del Lobo · 1912 Tratado de Fez · 1921 Desastre de Annual y República del Rif · 1925 Derrota de Abdel Krim · 1936–39 Regulares en la Guerra Civil · 1956 Independencia de Marruecos · 1975 La Marcha Verde</p></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="2">
-      <div class="slide-bg" style="background-image:url('img/s1_slide4_bg.jpg');"></div>
-      <div class="slide-overlay"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Fuente Primaria 1 · 1928</div>
-        <h2 class="slide-heading">El discurso del "hermanamiento"</h2>
-        <p class="slide-body">El colonialismo español en Marruecos se presentó al pueblo español como una misión de "hermanamiento" — España como hermano mayor de Marruecos, heredera de Al-Ándalus.</p>
-        <div class="slide-quote">"Aquella convivencia de africanos y andaluces tan fructífera [nos otorga] una capacitación especial no igualada por pueblo alguno para mostrarnos verdaderos conductores espirituales de los marroquíes."<cite>— Tomás García Figueras, <em>África</em>, noviembre 1928</cite></div>
-      </div>
-      <!-- Foreground image example — replace src with your PNG -->
-      <div class="slide-fg">
-        <img class="slide-img" src="img/s1_slide5_bg.jpg" alt="Revista de Tropas Coloniales, 1925">
-      </div>
-    </div>
-
-    <div class="slide" data-slide="3">
-      <div class="slide-bg" style="background-image:url('img/s1_slide5_bg.jpg');background-position:center;"></div>
-      <div class="slide-overlay heavy"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Fuente Primaria 2 · 1925</div>
-        <h2 class="slide-heading">Revista de Tropas Coloniales</h2>
-        <p class="slide-body">Las revistas militares coloniales difundían imágenes que reforzaban el discurso del hermanamiento a través del espacio, la arquitectura y la representación visual del "otro" marroquí.</p>
-        <div class="slide-activity"><div class="slide-activity-label">🔍 Análisis de imagen</div><p>¿Cómo se representa la relación entre españoles y marroquíes en esta ilustración? ¿Qué poder transmite cada figura? ¿Qué queda fuera del encuadre?</p></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="4">
-      <div class="slide-bg" style="background-image:url('img/s1_slide7_bg.jpg');"></div>
-      <div class="slide-overlay"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Fuente Primaria 3 · 1941</div>
-        <h2 class="slide-heading">Arturo Barea: ¿Quién civiliza a quién?</h2>
-        <div class="slide-quote">"¿Por qué tenemos nosotros que luchar contra los moros? ¿Por qué tenemos que civilizarlos? […] Nosotros, los de Castilla, de Andalucía, que no sabemos leer ni escribir […] Reventamos de hambre y de miseria. El amo nos roba y si nos quejamos, la guardia civil nos muele a palos."<cite>— Arturo Barea, <em>La Ruta</em>, 1941</cite></div>
-        <div class="slide-activity"><div class="slide-activity-label">💬 Reflexión</div><p>¿Cómo cuestiona Barea el concepto de "civilización"? ¿Qué dice esto sobre el discurso colonial y sobre la clase social de los soldados españoles?</p></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="5">
-      <div class="slide-bg" style="background-image:url('img/s1_slide8_bg.jpg');background-position:center top;"></div>
-      <div class="slide-overlay heavy"></div>
-      <div class="slide-content">
-        <div class="slide-tag">El Desastre de Annual · Julio 1921</div>
-        <h2 class="slide-heading">La mayor derrota colonial española</h2>
-        <p class="slide-body">En julio de 1921, las fuerzas españolas sufrieron el Desastre de Annual: más de 8.000 soldados muertos en pocas semanas. Fue la mayor derrota del ejército español en el norte de África.</p>
-        <div class="slide-quote">"Ver minutos 33:13–36:41 del documental <em>El Laberinto Marroquí</em> (2007) — testimonio de un veterano marroquí sobre el Desastre de Annual."<cite>— Fuente Primaria 4: testimonio oral</cite></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="6">
-      <div class="slide-bg" style="background-image:url('img/s1_slide9_bg.jpg');background-size:contain;background-repeat:no-repeat;background-color:#1a2830;"></div>
-      <div class="slide-overlay" style="background:linear-gradient(110deg,rgba(30,61,71,.92) 0%,rgba(30,61,71,.7) 100%);"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Fuente Primaria 6 · 1921</div>
-        <h2 class="slide-heading">'El Moro Amigo' y las armas químicas</h2>
-        <p class="slide-body">El grabado 'El Moro amigo' de Echea (Revista de Tropas Coloniales, octubre 1921) presenta una imagen de amistad hispano-marroquí. Pero ese mismo año, España usó armas químicas —gas mostaza— contra la población civil rifeña.</p>
-        <div class="slide-activity"><div class="slide-activity-label">💬 Preguntas de cierre</div><p>¿Cómo deberíamos recordar, como sociedad multicultural, el pasado colonial de España en Marruecos? ¿Cómo conmemorar el Desastre de Annual reconociendo el impacto sobre la población del Rif <em>y</em> de España?</p></div>
-      </div>
-    </div>
-
-    <div class="slider-nav">
-      <div class="slider-progress" id="s1-dots"></div>
-      <div style="display:flex;align-items:center;gap:18px;">
-        <div class="slider-count"><span id="s1-current">1</span> / 7</div>
-        <div class="slider-buttons">
-          <button class="slider-btn" id="s1-prev"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9L11 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-          <button class="slider-btn" id="s1-next"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-        </div>
-      </div>
+<section class="home-intro">
+  <div class="reveal-left">
+    <div class="intro-label">Contexto histórico</div>
+    <h2 class="intro-heading">Un capítulo silenciado de la historia española</h2>
+    <p class="intro-body">Entre 1912 y 1956, España gobernó el norte de Marruecos como protectorado colonial. Esta experiencia —marcada por la guerra del Rif, el desastre de Annual, y el encuentro entre culturas— rara vez aparece en los libros de texto españoles.</p>
+    <p class="intro-body">Este taller invita al alumnado a explorar ese pasado a través de fuentes primarias, a reflexionar sobre qué significa la memoria histórica, y a imaginar cómo podríamos recordar ese legado hoy.</p>
+  </div>
+  <div class="reveal-right">
+    <div class="intro-stat-grid">
+      <div class="intro-stat reveal" data-delay="1"><div class="stat-num">44</div><div class="stat-label">años de presencia colonial española en Marruecos</div></div>
+      <div class="intro-stat reveal" data-delay="2"><div class="stat-num">4</div><div class="stat-label">sesiones de clase para explorar esta historia</div></div>
+      <div class="intro-stat reveal" data-delay="3"><div class="stat-num">1921</div><div class="stat-label">Desastre de Annual — más de 8.000 soldados muertos</div></div>
+      <div class="intro-stat reveal" data-delay="4"><div class="stat-num">1956</div><div class="stat-label">Independencia de Marruecos — fin del protectorado</div></div>
     </div>
   </div>
-  <div class="session-nav-strip">
-    <a href="#" class="back-link" data-page="home">← Volver al inicio</a>
-    <a href="#" class="session-next-btn" data-page="s2">Continuar: Sesión 2 — Memoria Histórica →</a>
+</section>
+
+<section class="sessions-section">
+  <div class="section-header reveal">
+    <div class="section-label">El Taller</div>
+    <h2 class="section-title">Cuatro sesiones, una historia compartida</h2>
   </div>
-</div>
-
-<!-- ========== SESSION 2 (SLIDER) ========== -->
-<div class="page" id="page-s2">
-  <div class="slider-session-bar" style="padding-top:88px">
-    <div><div class="session-bar-sub">Sesión 02 · Memoria Histórica</div><div class="session-bar-title">¿Qué recordamos y por qué?</div></div>
-    <a href="#" class="back-link" data-page="home"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L8 3M3 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Volver al inicio</a>
+  <div class="sessions-grid">
+    <a href="s1.html" class="session-card reveal" data-delay="1">
+      <div><div class="card-num">01</div><div class="card-tag">Fuentes primarias</div><h3 class="card-title">Colonización del Norte de África</h3><p class="card-desc">Fotografías, documentales y testimonios de la época colonial. Fuentes primarias sobre el protectorado, la guerra del Rif y el discurso del "hermanamiento".</p></div>
+      <div class="card-arrow">Ver sesión <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </a>
+    <a href="s2.html" class="session-card reveal" data-delay="2">
+      <div><div class="card-num">02</div><div class="card-tag">Memoria histórica</div><h3 class="card-title">¿Qué recordamos y por qué?</h3><p class="card-desc">Conversación colectiva sobre la memoria histórica. Análisis de monumentos y ejemplos de conmemoración. Introducción al proyecto del taller.</p></div>
+      <div class="card-arrow">Ver sesión <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </a>
+    <a href="s3.html" class="session-card reveal" data-delay="3">
+      <div><div class="card-num">03</div><div class="card-tag">Taller en grupos</div><h3 class="card-title">Diseñando la Memoria</h3><p class="card-desc">Los grupos preparan su propuesta: un monumento, exposición, festival u otro objeto de memoria histórica sobre el pasado colonial de España en el norte de África.</p></div>
+      <div class="card-arrow">Ver sesión <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </a>
+    <a href="s4.html" class="session-card reveal" data-delay="4">
+      <div><div class="card-num">04</div><div class="card-tag">Presentaciones</div><h3 class="card-title">Compartiendo Nuestra Memoria</h3><p class="card-desc">Cada grupo presenta su proyecto ante la clase. Reflexión colectiva final sobre lo aprendido y la importancia de construir memoria histórica.</p></div>
+      <div class="card-arrow">Ver sesión <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </a>
   </div>
-  <div class="slider-wrapper" id="slider2">
+</section>
 
-    <div class="slide active" data-slide="0">
-      <div class="slide-bg" style="background-image:url('img/s2_slide1_bg.jpg');"></div>
-      <div class="slide-overlay"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Sesión 02 · Introducción</div>
-        <h2 class="slide-heading">Memoria histórica: el proyecto</h2>
-        <p class="slide-body">Soy Elisabeth Bolorinos Allard, profesora en la Universidad de Bristol. Creo que la historia tiene importancia más allá de los libros y las aulas. La historia tiene mucho que ver con la identidad, y vosotros deberíais participar en el proceso de construir la memoria histórica.</p>
-        <div class="slide-activity"><div class="slide-activity-label">En esta sesión</div><p>Analizaremos ejemplos de monumentos y objetos de memoria histórica. Discutiremos qué significa conmemorar y por qué algunos eventos se recuerdan y otros no. Y os presentaré el proyecto que vais a realizar.</p></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="1">
-      <div class="slide-bg" style="background-image:url('img/s2_slide2_bg.jpg');"></div>
-      <div class="slide-overlay heavy"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Concepto clave</div>
-        <h2 class="slide-heading">¿Qué es la memoria histórica?</h2>
-        <p class="slide-body">La memoria histórica son las formas que tiene una sociedad de recordar acontecimientos o personas importantes en su historia. Puede ser una estatua, el nombre de las calles, una exposición, un congreso, un acto público. Influye en cómo una sociedad se entiende a sí misma y se relaciona con su presente y futuro.</p>
-        <div class="slide-activity"><div class="slide-activity-label">💬 Preguntas iniciales</div><p>¿Por qué es importante la memoria histórica? ¿Por qué conmemoramos algunos eventos/personajes y no otros? ¿Por qué se seleccionan algunos símbolos e imágenes para representar momentos históricos?</p></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="2">
-      <div class="slide-bg" style="background-image:url('img/s2_slide3_bg.jpg');background-position:center;"></div>
-      <div class="slide-overlay heavy"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Ejemplos cotidianos</div>
-        <h2 class="slide-heading">La memoria está en las calles</h2>
-        <p class="slide-body">Un azulejo en la calle de Tetuán, en el centro de Madrid, conmemora la victoria española en la Batalla de Tetuán de 1860. Una placa en el patio de un colegio de Alcorcón recuerda a la escritora Lucía Asué Abalo Bomio, antigua alumna.</p>
-        <div class="slide-quote">"¿Qué significa la palabra <em>conmemorar</em>? Marcar o celebrar acontecimientos por medio de monumentos, exposiciones, eventos."<cite>— Reflexión colectiva</cite></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="3">
-      <div class="slide-bg" style="background-image:url('img/s2_slide4_bg.jpg');"></div>
-      <div class="slide-overlay"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Memoria oficial</div>
-        <h2 class="slide-heading">El 12 de octubre y Ortiz Echagüe</h2>
-        <p class="slide-body">El desfile militar del Día Nacional (12 de octubre) celebra el día en que Colón llegó a América. ¿Por qué se eligió este día como fiesta nacional? Un cartel anuncia una exposición del fotógrafo Fernando Ortiz Echagüe (1886–1980), quien sirvió en la guerra del norte de África.</p>
-        <div class="slide-activity"><div class="slide-activity-label">💬 Reflexión</div><p>¿Qué nos dice la elección del 12 de octubre como fiesta nacional sobre cómo España construye su identidad? ¿Cómo se relaciona con el colonialismo?</p></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="4">
-      <div class="slide-bg" style="background-image:url('img/s2_slide7_bg.jpg');background-size:contain;background-repeat:no-repeat;background-color:#1a2830;"></div>
-      <div class="slide-overlay" style="background:linear-gradient(110deg,rgba(30,61,71,.93) 0%,rgba(30,61,71,.75) 100%);"></div>
-      <div class="slide-content">
-        <div class="slide-tag">Ejemplo 1 · Granada, 1892</div>
-        <h2 class="slide-heading">¿Qué monumento elegir?</h2>
-        <p class="slide-body">En 1892, el gobierno español convocó un concurso para conmemorar los 400 años de la llegada de Colón a América. El arquitecto Justo Gandarías propuso un arco con estilos aztecas, hispanoárabes y europeos — un monumento que habría incorporado las identidades diversas de España. Pero no fue elegido.</p>
-        <div class="slide-activity"><div class="slide-activity-label">💬 Debate</div><p>El monumento que ganó el premio fue mucho más convencional. ¿Por qué creéis que se eligió ese monumento y no el de Gandarías? ¿Qué dice eso sobre la identidad que España quería proyectar?</p></div>
-      </div>
-    </div>
-
-    <div class="slide" data-slide="5">
-      <div class="slide-bg" style="background-image:url('img/s2_slide11_bg.jpg');"></div>
-      <div class="slide-overlay"></div>
-      <div class="slide-content">
-        <div class="slide-tag">El Proyecto</div>
-        <h2 class="slide-heading">Diseñad un objeto de memoria histórica</h2>
-        <p class="slide-body">En grupos, preparad una propuesta para un monumento, evento, exposición, festival u otro objeto de memoria histórica sobre el pasado colonial de España en el norte de África.</p>
-        <div class="slide-activity"><div class="slide-activity-label">📋 Justificad vuestro proyecto respondiendo:</div><p>¿Cuál es la historia que queréis contar? · ¿Cuáles son las identidades que queréis celebrar? · ¿Por qué habéis elegido esta forma de memoria histórica? · ¿Por qué habéis elegido estas imágenes o símbolos? · ¿Dónde estaría emplazado y por qué?</p></div>
-      </div>
-    </div>
-
-    <div class="slider-nav">
-      <div class="slider-progress" id="s2-dots"></div>
-      <div style="display:flex;align-items:center;gap:18px;">
-        <div class="slider-count"><span id="s2-current">1</span> / 6</div>
-        <div class="slider-buttons">
-          <button class="slider-btn" id="s2-prev"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9L11 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-          <button class="slider-btn" id="s2-next"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-        </div>
-      </div>
-    </div>
+<section class="partners-section">
+  <div class="moroccan-divider"><svg class="divider-star" viewBox="0 0 200.2 200.1" xmlns="http://www.w3.org/2000/svg"><path d="M196.3,95.8h-.2l-25.2-25.2V29.1h-41.6L104.2,3.9l-4.4-3.9-4,3.9-25.2,25.2H29.1v41.6L3.9,95.8l-3.9,4,3.9,4.4,25.2,25.2v41.6h41.6l25.2,25.2,4,3.9,4.4-3.9,25.2-25.2h41.6v-41.6l25.2-25.2,3.9-4.4-3.9-4ZM183.79,103.66l-21.92,21.92v36.19h-36.19l-21.92,21.92-3.83,3.39-3.48-3.39-21.92-21.92h-36.19v-36.19l-21.92-21.92-3.39-3.83,3.39-3.48,21.92-21.84v-36.19h36.1l21.92-21.92,3.48-3.39,3.83,3.39,21.84,21.92h36.19v36.11l21.92,21.92h.17l3.39,3.48-3.39,3.83Z" fill="currentColor"/></svg></div>
+  <div class="partners-label reveal">Con el apoyo de</div>
+  <div class="partners-logos reveal">
+    <a href="https://www.bristol.ac.uk" target="_blank" rel="noopener" class="partner-logo-link">
+      <img src="img/logo-bristol.png" alt="University of Bristol" class="partner-logo">
+    </a>
+    <a href="https://www.ieslasveredillas.es" target="_blank" rel="noopener" class="partner-logo-link">
+      <img src="img/logo-lasveredillas.png" alt="IES Las Veredillas" class="partner-logo">
+    </a>
+    <a href="https://www.ukri.org/councils/ahrc/" target="_blank" rel="noopener" class="partner-logo-link">
+      <img src="img/logo-ukri.png" alt="UKRI Arts and Humanities Research Council" class="partner-logo">
+    </a>
   </div>
-  <div class="session-nav-strip">
-    <a href="#" class="back-link" data-page="s1">← Sesión anterior</a>
-    <a href="#" class="session-next-btn" data-page="s3">Continuar: Sesión 3 — Taller en grupos →</a>
+  <div class="moroccan-divider" style="margin-top:40px"><svg class="divider-star" viewBox="0 0 200.2 200.1" xmlns="http://www.w3.org/2000/svg"><path d="M196.3,95.8h-.2l-25.2-25.2V29.1h-41.6L104.2,3.9l-4.4-3.9-4,3.9-25.2,25.2H29.1v41.6L3.9,95.8l-3.9,4,3.9,4.4,25.2,25.2v41.6h41.6l25.2,25.2,4,3.9,4.4-3.9,25.2-25.2h41.6v-41.6l25.2-25.2,3.9-4.4-3.9-4ZM183.79,103.66l-21.92,21.92v36.19h-36.19l-21.92,21.92-3.83,3.39-3.48-3.39-21.92-21.92h-36.19v-36.19l-21.92-21.92-3.39-3.83,3.39-3.48,21.92-21.84v-36.19h36.1l21.92-21.92,3.48-3.39,3.83,3.39,21.84,21.92h36.19v36.11l21.92,21.92h.17l3.39,3.48-3.39,3.83Z" fill="currentColor"/></svg></div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-brand">El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</div><p class="footer-tagline">Un recurso educativo para explorar la historia colonial de España en Marruecos (1912–1956) a través de fuentes primarias, debate y creación colectiva.</p></div>
+    <div><div class="footer-nav-label">El Taller</div><ul class="footer-nav-links"><li><a href="s1.html">Sesión 1 — Fuentes Primarias</a></li><li><a href="s2.html">Sesión 2 — Memoria Histórica</a></li><li><a href="s3.html">Sesión 3 — Taller en Grupos</a></li><li><a href="s4.html">Sesión 4 — Presentaciones</a></li></ul></div>
+    <div><div class="footer-nav-label">Más información</div><ul class="footer-nav-links"><li><a href="about.html">Sobre el proyecto</a></li><li><a href="resources.html">Recursos adicionales</a></li><li><a href="contact.html">Contacto</a></li></ul></div>
   </div>
-</div>
+  <div class="footer-bottom"><span>© 2026 El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</span><div class="footer-geo-mark"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>España — Marruecos</div></div>
+</footer>
 
-<!-- ========== SESSION 3 ========== -->
-<div class="page" id="page-s3">
-  <div style="padding-top:72px">
-    <div class="session-hero">
-      <div class="session-hero-pattern"></div>
-      <div class="session-hero-num">03</div>
-      <div><div class="session-hero-eyebrow">Sesión 03 · Taller en grupos</div><h1 class="session-hero-title">Diseñando <em>la Memoria</em></h1></div>
-    </div>
-    <div class="session-body">
-      <div class="session-intro reveal"><p class="session-intro-text">En esta sesión trabajaréis en grupos de 3–4 personas para preparar vuestro proyecto: un monumento, congreso, exposición, festival, poema u obra de arte que recuerde el pasado colonial de España en el norte de África. Podéis dibujar y diseñar el monumento, o explicar con detalle en qué consistiría el evento.</p></div>
-      <div class="objectives-box reveal">
-        <div class="objectives-label">Objetivos de la sesión</div>
-        <ul class="objectives-list">
-          <li>Desarrollar en equipo una propuesta creativa y fundamentada histórica y conceptualmente</li>
-          <li>Aplicar los conceptos de memoria histórica trabajados en sesiones anteriores</li>
-          <li>Preparar una presentación de 10 minutos para la Sesión 4</li>
-          <li>Reflexionar sobre distintas perspectivas de la historia colonial</li>
-        </ul>
-      </div>
-      <div class="content-block reveal">
-        <div class="block-label">Preguntas guía</div>
-        <h2 class="block-title">Para orientar vuestro diseño</h2>
-        <p class="block-text">Antes de empezar, responded estas preguntas como grupo. Vuestras respuestas serán la base del proyecto.</p>
-        <div class="activity-cards">
-          <div class="activity-card reveal" data-delay="1"><div class="activity-icon">🎯</div><h4>¿Cuál es la historia que queréis contar?</h4><p>¿El desastre de Annual? ¿La resistencia del Rif? ¿El día a día en el protectorado? ¿El legado compartido? La elección define el proyecto.</p></div>
-          <div class="activity-card reveal" data-delay="2"><div class="activity-icon">🏛️</div><h4>¿Cuáles son las identidades que queréis celebrar?</h4><p>¿Las de los marroquíes que resistieron? ¿Los soldados españoles de clase obrera que no eligieron ir? ¿Las culturas en contacto? ¿Ambas perspectivas?</p></div>
-          <div class="activity-card reveal" data-delay="3"><div class="activity-icon">📍</div><h4>¿Dónde estaría emplazado y por qué?</h4><p>¿En España o en Marruecos? ¿En Ceuta, Melilla, Tetuán, Alhucemas? ¿En Madrid? La ubicación también es un mensaje.</p></div>
-          <div class="activity-card reveal" data-delay="4"><div class="activity-icon">🎨</div><h4>¿Qué forma tendría?</h4><p>¿Monumento? ¿Exposición? ¿Festival? ¿Congreso? ¿Poema? ¿Obra de arte participativa? Cualquier forma es válida si está bien justificada.</p></div>
-        </div>
-      </div>
-      <div class="objectives-box reveal" style="background:var(--terra-dark);">
-        <div class="objectives-label" style="color:var(--gold-light)">Preparación de la presentación (10 min)</div>
-        <ul class="objectives-list">
-          <li>Explicad la historia que queréis contar y las identidades que queréis celebrar</li>
-          <li>Describid vuestro objeto de memoria: si es un monumento, dibujadlo o describidlo; si es un evento, explicad exactamente qué se haría</li>
-          <li>Justificad por qué habéis elegido esa forma y esas imágenes o símbolos concretos</li>
-          <li>Comentad el uso de IA si habéis utilizado herramientas de inteligencia artificial para el diseño</li>
-          <li>Preparad una reflexión final: ¿qué habéis aprendido con este proyecto?</li>
-        </ul>
-      </div>
-    </div>
-    <div class="session-nav-strip">
-      <a href="#" class="back-link" data-page="s2">← Sesión anterior</a>
-      <a href="#" class="session-next-btn" data-page="s4">Continuar: Sesión 4 — Presentaciones →</a>
-    </div>
-  </div>
-</div>
-
-<!-- ========== SESSION 4 ========== -->
-<div class="page" id="page-s4">
-  <div style="padding-top:72px">
-    <div class="session-hero" style="background:linear-gradient(160deg,var(--dark) 0%,#1a3020 100%);">
-      <div class="session-hero-pattern"></div>
-      <div class="session-hero-num">04</div>
-      <div><div class="session-hero-eyebrow">Sesión 04 · Presentaciones</div><h1 class="session-hero-title">Compartiendo <em>Nuestra Memoria</em></h1></div>
-    </div>
-    <div class="session-body">
-      <div class="session-intro reveal"><p class="session-intro-text">Esta es la sesión final del taller. Cada grupo presentará su objeto de memoria ante el resto de la clase. Escuchad con atención: cada proyecto refleja una manera distinta de entender la historia colonial y la responsabilidad que tenemos con ella.</p></div>
-      <div class="objectives-box reveal">
-        <div class="objectives-label">Objetivos de la sesión</div>
-        <ul class="objectives-list">
-          <li>Presentar el proyecto de forma clara, argumentada y creativa (10 minutos por grupo)</li>
-          <li>Escuchar y valorar críticamente las propuestas de los demás grupos</li>
-          <li>Reflexionar sobre las distintas formas de recordar la historia colonial</li>
-          <li>Cerrar el taller con una reflexión colectiva sobre lo aprendido</li>
-        </ul>
-      </div>
-      <div class="content-block reveal">
-        <div class="block-label">Estructura sugerida</div>
-        <h2 class="block-title">La presentación de 10 minutos</h2>
-        <div class="activity-cards">
-          <div class="activity-card reveal" data-delay="1"><div class="activity-icon">1️⃣</div><h4>La historia que queréis contar (2 min)</h4><p>¿Qué aspecto del pasado colonial habéis elegido? ¿Por qué ese aspecto y no otro? ¿Qué aprendisteis en las sesiones anteriores que influyó en vuestra elección?</p></div>
-          <div class="activity-card reveal" data-delay="2"><div class="activity-icon">2️⃣</div><h4>El objeto de memoria (4 min)</h4><p>Describid vuestro proyecto en detalle — su forma, ubicación, materiales, simbología. Mostrad dibujos, bocetos o imágenes de referencia si los tenéis.</p></div>
-          <div class="activity-card reveal" data-delay="3"><div class="activity-icon">3️⃣</div><h4>La justificación (2 min)</h4><p>¿Por qué este diseño? ¿Qué queréis que sienta quien lo visite o participe? ¿Qué identidades celebra? ¿Cómo conecta con la memoria histórica?</p></div>
-          <div class="activity-card reveal" data-delay="4"><div class="activity-icon">4️⃣</div><h4>Reflexión final (2 min)</h4><p>¿Qué habéis aprendido haciendo este proyecto? ¿Ha cambiado vuestra visión de la historia colonial o de la memoria histórica española?</p></div>
-        </div>
-      </div>
-      <div class="objectives-box reveal" style="background:linear-gradient(135deg,var(--dark) 0%,#1a3020 100%);">
-        <div class="objectives-label" style="color:var(--gold-light)">🌿 Reflexión final colectiva</div>
-        <ul class="objectives-list">
-          <li>¿Qué sabéis ahora sobre el pasado colonial de España en Marruecos que no sabíais al principio?</li>
-          <li>¿Cómo ha cambiado vuestra comprensión del concepto de "memoria histórica"?</li>
-          <li>¿Creéis que España debería crear algún espacio oficial de memoria sobre su pasado colonial en Marruecos?</li>
-          <li>¿Conocéis algún ejemplo de memoria histórica de la Guerra del Rif en España? ¿Por qué creéis que hay tan pocos?</li>
-        </ul>
-      </div>
-      <div class="quote-section" style="margin:0;padding:80px 0;">
-        <blockquote class="quote-text reveal">"El pasado no está muerto. <em>Ni siquiera es pasado.</em>"</blockquote>
-        <p class="quote-attr reveal" data-delay="2">— William Faulkner, <em>Requiem for a Nun</em> (1951)</p>
-      </div>
-    </div>
-    <div class="session-nav-strip">
-      <a href="#" class="back-link" data-page="s3">← Sesión anterior</a>
-      <a href="#" class="session-next-btn" data-page="resources">Ver recursos adicionales →</a>
-    </div>
-  </div>
-</div>
-
-<!-- ========== ABOUT ========== -->
-<div class="page" id="page-about">
-  <div style="padding-top:72px">
-    <div class="about-hero">
-      <div class="hero-pattern"></div>
-      <div class="hero-gradient"></div>
-      <div style="position:relative;z-index:2;max-width:700px;">
-        <div class="hero-eyebrow" style="animation:none;opacity:1;">Sobre el proyecto</div>
-        <h1 class="hero-title" style="animation:none;">
-          <span class="hero-title-line" style="animation:none;opacity:1;transform:none;">Un recurso</span>
-          <span class="hero-title-line" style="animation:none;opacity:1;transform:none;font-weight:300;color:var(--gold-light)">educativo</span>
-        </h1>
-      </div>
-    </div>
-    <div class="about-body">
-      <div class="about-text">
-        <div class="intro-label reveal">El proyecto</div>
-        <h2 class="block-title reveal" style="margin-bottom:24px;">¿Por qué este taller?</h2>
-        <p class="reveal">La historia colonial de España en Marruecos es uno de los capítulos más silenciados de la historia española contemporánea. Entre 1912 y 1956, España gobernó el norte de Marruecos como protectorado: instaló administraciones, construyó infraestructuras, libró guerras brutales y dejó huellas que todavía hoy se sienten en ambos países.</p>
-        <p class="reveal">Sin embargo, este pasado apenas aparece en los libros de texto españoles. A diferencia de la memoria de la Guerra Civil o la Transición, la memoria colonial española permanece en gran medida ausente del debate público y de la educación formal.</p>
-        <p class="reveal">Este taller educativo nació de esa ausencia. Desarrollado por la Universidad de Bristol y el IES Las Veredillas, su objetivo es ofrecer a profesores y alumnos de secundaria y bachillerato una herramienta pedagógica para explorar esa historia de forma crítica, empática y creativa.</p>
-        <p class="reveal">No pretende ofrecer una versión definitiva de la historia. Al contrario: invita al alumnado a explorar múltiples perspectivas, a hacer preguntas incómodas, y a reflexionar sobre qué significa ser herederos de un pasado colonial. El proyecto final —diseñar un objeto de memoria histórica— convierte al alumnado en agente activo de esa construcción colectiva.</p>
-      </div>
-      <div class="about-sidebar">
-        <div class="about-feature reveal" data-delay="1"><div class="about-feature-icon">🏛️</div><h4>Universidad de Bristol</h4><p>El proyecto está coordinado por el Departamento de Historia de la Universidad de Bristol (Reino Unido), con investigación especializada en la historia colonial española.</p></div>
-        <div class="about-feature reveal" data-delay="2"><div class="about-feature-icon">🏫</div><h4>IES Las Veredillas</h4><p>Desarrollado en colaboración con el IES Las Veredillas (Torrejón de Ardoz, Madrid), donde el taller se ha implementado en el aula con alumnado real.</p></div>
-        <div class="about-feature reveal" data-delay="3"><div class="about-feature-icon">⚖️</div><h4>Perspectiva equilibrada</h4><p>El taller presenta múltiples perspectivas — española, marroquí y rifeña — sin adoptar una narrativa única, fomentando el pensamiento crítico.</p></div>
-        <div class="about-feature reveal" data-delay="4"><div class="about-feature-icon">🎨</div><h4>Aprendizaje creativo</h4><p>El proyecto del objeto de memoria invita al alumnado a procesar la historia no solo intelectualmente, sino emocional y creativamente.</p></div>
-      </div>
-    </div>
-  </div>
-  <footer>
-    <div class="footer-grid">
-      <div><div class="footer-brand">El Protectorado Olvidado</div><p class="footer-tagline">Recurso educativo desarrollado por la Universidad de Bristol e IES Las Veredillas. Historia colonial española en Marruecos, 1912–1956.</p></div>
-      <div><div class="footer-nav-label">El Taller</div><ul class="footer-nav-links"><li><a href="#" data-page="s1">Sesión 1</a></li><li><a href="#" data-page="s2">Sesión 2</a></li><li><a href="#" data-page="s3">Sesión 3</a></li><li><a href="#" data-page="s4">Sesión 4</a></li></ul></div>
-      <div><div class="footer-nav-label">Más</div><ul class="footer-nav-links"><li><a href="#" data-page="home">Inicio</a></li><li><a href="#" data-page="resources">Recursos</a></li><li><a href="#" data-page="contact">Contacto</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><span>© 2026 El Protectorado Olvidado</span><div class="footer-geo-mark">España — Marruecos</div></div>
-  </footer>
-</div>
-
-<!-- ========== RESOURCES ========== -->
-<div class="page" id="page-resources">
-  <div style="padding-top:72px">
-    <div class="resources-hero">
-      <div class="hero-pattern"></div>
-      <div style="position:relative;z-index:2;">
-        <div class="session-hero-eyebrow">Para saber más</div>
-        <h1 class="session-hero-title" style="font-size:clamp(2rem,5vw,3.8rem);">Recursos <em>Adicionales</em></h1>
-      </div>
-    </div>
-    <div class="resources-body">
-      <div class="resource-category reveal">
-        <div class="resource-category-label">Documentales — fundamental para el taller</div>
-        <div class="resource-grid">
-          <div class="resource-item">
-            <div class="resource-type">Documental · YouTube</div>
-            <div class="resource-title">El Laberinto Marroquí</div>
-            <div class="resource-author">TVE, 2007</div>
-            <div class="resource-desc">Documental esencial para el taller. Incluye testimonios de veteranos marroquíes sobre Annual (min. 33:13–36:41) y sobre el uso de armas químicas (min. 45:05–47:10).</div>
-            <a class="resource-link" href="https://www.youtube.com/watch?v=IEqLEwOo5Ys&t=3046s" target="_blank">Ver en YouTube →</a>
-          </div>
-          <div class="resource-item">
-            <div class="resource-type">Documental</div>
-            <div class="resource-title">Annual: El desastre de España en el Rif</div>
-            <div class="resource-author">Rodolfo Martínez Ortega, 2007</div>
-            <div class="resource-desc">Reconstruye la batalla de Annual (julio 1921), en la que murieron más de 8.000 soldados españoles. Incluye documentos de archivo y testimonios históricos.</div>
-          </div>
-          <div class="resource-item">
-            <div class="resource-type">Fuente primaria · Texto literario</div>
-            <div class="resource-title">La Ruta</div>
-            <div class="resource-author">Arturo Barea, 1941</div>
-            <div class="resource-desc">Segundo volumen de la trilogía autobiográfica de Barea. Narra su experiencia como soldado en la guerra del Rif, cuestionando el discurso colonial desde una perspectiva de clase obrera.</div>
-          </div>
-        </div>
-      </div>
-      <div class="resource-category reveal">
-        <div class="resource-category-label">Libros y artículos académicos</div>
-        <div class="resource-grid">
-          <div class="resource-item">
-            <div class="resource-type">Libro · Historia</div>
-            <div class="resource-title">El Protectorado Español en Marruecos: La historia trascendida</div>
-            <div class="resource-author">Mimoun Aziza (ed.), 2013</div>
-            <div class="resource-desc">Perspectiva marroquí sobre el período colonial, con especial atención a las transformaciones sociales y culturales en el norte de Marruecos.</div>
-          </div>
-          <div class="resource-item">
-            <div class="resource-type">Artículo académico</div>
-            <div class="resource-title">Colonial Memory and Postcolonial Spain</div>
-            <div class="resource-author">Sebastiaan Faber, <em>Journal of Spanish Cultural Studies</em>, 2008</div>
-            <div class="resource-desc">Análisis de cómo la memoria colonial española ha sido suprimida y de los debates emergentes sobre la necesidad de confrontarla.</div>
-          </div>
-          <div class="resource-item">
-            <div class="resource-type">Libro · Fuente primaria</div>
-            <div class="resource-title">Recuerdos de la campaña</div>
-            <div class="resource-author">Tomás García Figueras, <em>África</em>, noviembre 1928</div>
-            <div class="resource-desc">Fuente primaria utilizada en Sesión 1. Texto representativo del discurso colonial español del "hermanamiento" hispano-marroquí.</div>
-          </div>
-        </div>
-      </div>
-      <div class="resource-category reveal">
-        <div class="resource-category-label">Archivos y recursos digitales</div>
-        <div class="resource-grid">
-          <div class="resource-item">
-            <div class="resource-type">Archivo digital</div>
-            <div class="resource-title">Archivo General de la Administración (AGA)</div>
-            <div class="resource-author">Alcalá de Henares, España</div>
-            <div class="resource-desc">Contiene documentación oficial del Protectorado Español de Marruecos. Parcialmente digitalizado. Fundamental para investigadores y docentes.</div>
-          </div>
-          <div class="resource-item">
-            <div class="resource-type">Fototeca online</div>
-            <div class="resource-title">Biblioteca Nacional de España — Fotografía colonial</div>
-            <div class="resource-author">BNE Digital</div>
-            <div class="resource-desc">Miles de fotografías del Protectorado disponibles online. Incluye imágenes de Tetuán, Larache, Alhucemas y la guerra del Rif. Ideal para fuentes primarias visuales.</div>
-          </div>
-          <div class="resource-item">
-            <div class="resource-type">Revista histórica</div>
-            <div class="resource-title">Revista de Tropas Coloniales (1924–1936)</div>
-            <div class="resource-author">Colección digitalizada</div>
-            <div class="resource-desc">Publicación militar española del período colonial. Fuente primaria visual y textual usada en Sesión 1. Disponible parcialmente en hemerotecas digitales.</div>
-          </div>
-        </div>
-      </div>
-      <div class="resource-category reveal">
-        <div class="resource-category-label">Para el profesorado</div>
-        <div class="resource-grid">
-          <div class="resource-item">
-            <div class="resource-type">Guía pedagógica</div>
-            <div class="resource-title">Guía pedagógica del taller</div>
-            <div class="resource-author">Elisabeth Bolorinos Allard y Cristina Luz García, 2024</div>
-            <div class="resource-desc">Guía completa con objetivos, preguntas para el alumnado, notas de contexto histórico y orientaciones para cada sesión. Desarrollada por la Universidad de Bristol e IES Las Veredillas.</div>
-          </div>
-          <div class="resource-item">
-            <div class="resource-type">Contacto</div>
-            <div class="resource-title">¿Quieres implementar este taller en tu centro?</div>
-            <div class="resource-author">Universidad de Bristol / IES Las Veredillas</div>
-            <div class="resource-desc">Si eres docente y quieres usar este recurso en tu aula, puedes contactar con el equipo del proyecto para recibir materiales adicionales y orientación pedagógica.</div>
-            <a class="resource-link" href="#" data-page="contact">Contactar →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <footer>
-    <div class="footer-grid">
-      <div><div class="footer-brand">El Protectorado Olvidado</div><p class="footer-tagline">Recurso educativo sobre la historia colonial española en Marruecos.</p></div>
-      <div><div class="footer-nav-label">El Taller</div><ul class="footer-nav-links"><li><a href="#" data-page="s1">Sesión 1</a></li><li><a href="#" data-page="s2">Sesión 2</a></li><li><a href="#" data-page="s3">Sesión 3</a></li><li><a href="#" data-page="s4">Sesión 4</a></li></ul></div>
-      <div><div class="footer-nav-label">Más</div><ul class="footer-nav-links"><li><a href="#" data-page="home">Inicio</a></li><li><a href="#" data-page="about">El Proyecto</a></li><li><a href="#" data-page="contact">Contacto</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><span>© 2026 El Protectorado Olvidado</span><div class="footer-geo-mark">España — Marruecos</div></div>
-  </footer>
-</div>
-
-<!-- ========== CONTACT ========== -->
-<div class="page" id="page-contact">
-  <div style="padding-top:72px">
-    <div class="contact-hero">
-      <div class="hero-pattern"></div>
-      <div class="hero-gradient"></div>
-      <div style="position:relative;z-index:2;">
-        <div class="session-hero-eyebrow">Ponte en contacto</div>
-        <h1 class="session-hero-title" style="font-size:clamp(2rem,5vw,3.8rem);">Contacto</h1>
-      </div>
-    </div>
-    <div class="contact-body">
-      <div class="contact-intro">
-        <div class="intro-label reveal">El equipo</div>
-        <h2 class="block-title reveal" style="margin-bottom:20px;">¿Quieres usar este taller en tu aula?</h2>
-        <p class="reveal" style="font-size:.95rem;line-height:1.85;color:var(--dark-mid);margin-bottom:14px;">Este taller ha sido diseñado para ser implementado en centros de secundaria y bachillerato. Si eres docente y quieres usarlo, el equipo puede proporcionarte materiales adicionales, la guía pedagógica completa y orientación para su implementación.</p>
-        <p class="reveal" style="font-size:.95rem;line-height:1.85;color:var(--dark-mid);">También nos interesa conocer vuestra experiencia si ya habéis realizado el taller: ¿cómo fue? ¿qué proyectos diseñó el alumnado? ¿qué funcionó y qué mejoraríais?</p>
-        <div class="contact-persons reveal" style="margin-top:32px;">
-          <div class="contact-person">
-            <div class="contact-person-name">Dr. Elisabeth Bolorinos Allard</div>
-            <div class="contact-person-role">Coordinadora del proyecto · Universidad de Bristol</div>
-            <div class="contact-person-detail">Investigadora en historia colonial española en Marruecos. Departamento de Historia, Universidad de Bristol, Reino Unido.</div>
-          </div>
-          <div class="contact-person">
-            <div class="contact-person-name">Cristina Luz García</div>
-            <div class="contact-person-role">Co-coordinadora · IES Las Veredillas</div>
-            <div class="contact-person-detail">Profesora de historia en IES Las Veredillas (Torrejón de Ardoz, Madrid). Responsable de la implementación del taller en el aula.</div>
-          </div>
-        </div>
-      </div>
-      <div class="contact-form reveal" data-delay="2">
-        <div class="intro-label" style="margin-bottom:28px;">Envíanos un mensaje</div>
-        <label class="form-label">Nombre</label>
-        <input class="form-input" type="text" placeholder="Tu nombre completo">
-        <label class="form-label">Correo electrónico</label>
-        <input class="form-input" type="email" placeholder="tu@correo.es">
-        <label class="form-label">Centro educativo</label>
-        <input class="form-input" type="text" placeholder="Nombre del centro (opcional)">
-        <label class="form-label">Mensaje</label>
-        <textarea class="form-textarea" placeholder="¿En qué podemos ayudarte? ¿Quieres implementar el taller? ¿Tienes feedback sobre una experiencia previa?"></textarea>
-        <button class="form-btn">Enviar mensaje</button>
-        <p class="form-note">Este formulario es solo de contacto. Nos pondremos en contacto contigo a la mayor brevedad.</p>
-      </div>
-    </div>
-  </div>
-  <footer>
-    <div class="footer-grid">
-      <div><div class="footer-brand">El Protectorado Olvidado</div><p class="footer-tagline">Proyecto desarrollado por la Universidad de Bristol e IES Las Veredillas.</p></div>
-      <div><div class="footer-nav-label">El Taller</div><ul class="footer-nav-links"><li><a href="#" data-page="s1">Sesión 1</a></li><li><a href="#" data-page="s2">Sesión 2</a></li><li><a href="#" data-page="s3">Sesión 3</a></li><li><a href="#" data-page="s4">Sesión 4</a></li></ul></div>
-      <div><div class="footer-nav-label">Más</div><ul class="footer-nav-links"><li><a href="#" data-page="home">Inicio</a></li><li><a href="#" data-page="about">El Proyecto</a></li><li><a href="#" data-page="resources">Recursos</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><span>© 2026 El Protectorado Olvidado</span><div class="footer-geo-mark">España — Marruecos</div></div>
-  </footer>
-</div>
-
-<script>
-// ===== CURSOR =====
-const cursorDot  = document.getElementById('cursor-dot');
-const cursorRing = document.getElementById('cursor-ring');
-let mX=0,mY=0,rX=0,rY=0;
-document.addEventListener('mousemove',e=>{mX=e.clientX;mY=e.clientY;cursorDot.style.left=mX+'px';cursorDot.style.top=mY+'px';});
-(function animR(){rX+=(mX-rX)*.12;rY+=(mY-rY)*.12;cursorRing.style.left=rX+'px';cursorRing.style.top=rY+'px';requestAnimationFrame(animR);})();
-document.querySelectorAll('a,button,.session-card,.resource-item,.activity-card,.contact-person,.about-feature').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
-});
-
-// ===== LOADER =====
-window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hidden'),1800));
-
-// ===== ROUTER =====
-// Pages where the hero sits below a padding div — nav needs to be dark immediately
-const darkNavPages = ['about','resources','contact','s3','s4'];
-
-function navigate(pageId){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const target=document.getElementById('page-'+pageId);
-  if(target){ target.classList.add('active'); window.scrollTo({top:0,behavior:'instant'}); }
-  document.querySelectorAll('.nav-link').forEach(l=>l.classList.toggle('active',l.dataset.page===pageId));
-  const nav=document.getElementById('nav');
-  if(darkNavPages.includes(pageId)){ nav.classList.add('dark'); }
-  else{ nav.classList.remove('dark'); nav.classList.toggle('scrolled',window.scrollY>40); }
-  setTimeout(setupReveal,80);
-  if(pageId==='s1') s1State.reset();
-  if(pageId==='s2') s2State.reset();
-}
-
-document.addEventListener('click',e=>{
-  const el=e.target.closest('[data-page]');
-  if(el&&el.dataset.page){ e.preventDefault(); navigate(el.dataset.page); document.getElementById('mobileMenu').classList.remove('open'); }
-});
-
-// ===== NAV SCROLL =====
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>{
-  const page=document.querySelector('.page.active');
-  if(page&&darkNavPages.includes(page.id.replace('page-',''))){ nav.classList.add('dark'); return; }
-  nav.classList.toggle('scrolled',window.scrollY>40);
-});
-
-// ===== MOBILE MENU =====
-document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
-document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
-
-// ===== SCROLL REVEAL =====
-function setupReveal(){
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-  },{threshold:.12});
-  document.querySelectorAll('.page.active .reveal,.page.active .reveal-left,.page.active .reveal-right').forEach(el=>{
-    el.classList.remove('visible'); obs.observe(el);
-  });
-}
-setupReveal();
-
-// ===== SLIDER ENGINE =====
-function makeSlider(wrapperId, prefix, total){
-  let cur=0;
-  const wrap=document.getElementById(wrapperId);
-  const slides=wrap.querySelectorAll('.slide');
-  const dotsEl=document.getElementById(prefix+'-dots');
-  const curEl=document.getElementById(prefix+'-current');
-
-  dotsEl.innerHTML='';
-  for(let i=0;i<total;i++){
-    const d=document.createElement('div');
-    d.className='progress-dot'+(i===0?' active':'');
-    d.addEventListener('click',()=>go(i));
-    dotsEl.appendChild(d);
-  }
-
-  function go(n){
-    slides[cur].classList.remove('active'); slides[cur].classList.add('prev');
-    const prev=cur; setTimeout(()=>slides[prev].classList.remove('prev'),900);
-    cur=(n+total)%total; slides[cur].classList.add('active');
-    dotsEl.querySelectorAll('.progress-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
-    if(curEl) curEl.textContent=cur+1;
-  }
-
-  document.getElementById(prefix+'-prev').addEventListener('click',()=>go(cur-1));
-  document.getElementById(prefix+'-next').addEventListener('click',()=>go(cur+1));
-
-  // Keyboard nav
-  document.addEventListener('keydown',e=>{
-    if(!wrap.closest('.page').classList.contains('active')) return;
-    if(e.key==='ArrowLeft') go(cur-1);
-    if(e.key==='ArrowRight') go(cur+1);
-  });
-
-  // Auto-advance
-  let timer=setInterval(()=>{if(wrap.closest('.page').classList.contains('active')) go(cur+1);},7000);
-  wrap.addEventListener('mouseenter',()=>clearInterval(timer));
-  wrap.addEventListener('mouseleave',()=>{ timer=setInterval(()=>{if(wrap.closest('.page').classList.contains('active')) go(cur+1);},7000); });
-
-  return { reset:()=>go(0) };
-}
-
-const s1State=makeSlider('slider1','s1',7);
-const s2State=makeSlider('slider2','s2',6);
-
-// ===== SESSION CARD CLICK =====
-document.querySelectorAll('.session-card[data-page]').forEach(c=>c.addEventListener('click',()=>navigate(c.dataset.page)));
-
-// ===== ANIMATED STAT COUNTERS =====
-function animStats(){
-  document.querySelectorAll('.stat-num').forEach(el=>{
-    const t=parseInt(el.textContent); if(isNaN(t)) return;
-    let start=0;
-    const step=ts=>{
-      if(!start) start=ts;
-      const p=Math.min((ts-start)/1200,1);
-      el.textContent=Math.floor((1-Math.pow(1-p,3))*t);
-      if(p<1) requestAnimationFrame(step); else el.textContent=t;
-    };
-    requestAnimationFrame(step);
-  });
-}
-const sg=document.querySelector('.intro-stat-grid');
-if(sg){ const so=new IntersectionObserver(e=>{if(e[0].isIntersecting){animStats();so.disconnect();}},{threshold:.5}); so.observe(sg); }
-</script>
+<script src="script.js"></script>
 </body>
 </html>

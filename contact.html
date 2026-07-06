@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto · El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Loader -->
+<div id="loader">
+  <img class="loader-star" src="img/logo.svg" alt="">
+  <div class="loader-text">Cargando — El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</div>
+</div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Inicio</a>
+  <a href="s1.html">Sesión 1</a>
+  <a href="s2.html">Sesión 2</a>
+  <a href="s3.html">Sesión 3</a>
+  <a href="s4.html">Sesión 4</a>
+  <a href="about.html">El Proyecto</a>
+  <a href="resources.html">Recursos</a>
+  <a href="juegos.html">Juegos</a>
+  <a href="contact.html">Contacto</a>
+</div>
+
+<!-- Navigation -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <img class="nav-logo-mark" src="img/logo.svg" alt="Logo" style="filter: invert(1);">
+    España en el norte de África
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">Inicio</a></li>
+    <li><a href="s1.html" class="nav-link">Sesión 1</a></li>
+    <li><a href="s2.html" class="nav-link">Sesión 2</a></li>
+    <li><a href="s3.html" class="nav-link">Sesión 3</a></li>
+    <li><a href="s4.html" class="nav-link">Sesión 4</a></li>
+    <li><a href="about.html" class="nav-link">El Proyecto</a></li>
+    <li><a href="resources.html" class="nav-link">Recursos</a></li>
+    <li><a href="juegos.html" class="nav-link">Juegos</a></li>
+    <li><a href="contact.html" class="nav-link active">Contacto</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div style="padding-top:72px">
+  <div class="contact-hero">
+    <div class="hero-pattern"></div>
+    <div class="hero-gradient"></div>
+    <div style="position:relative;z-index:2;">
+      <div class="session-hero-eyebrow">Ponte en contacto</div>
+      <h1 class="session-hero-title" style="font-size:clamp(2rem,5vw,3.8rem);">Contacto</h1>
+    </div>
+  </div>
+  <div class="contact-body">
+    <div class="contact-intro">
+      <div class="intro-label reveal">El equipo</div>
+      <h2 class="block-title reveal" style="margin-bottom:20px;">¿Quieres usar este taller en tu aula?</h2>
+      <p class="reveal" style="font-size:.95rem;line-height:1.85;color:var(--dark-mid);margin-bottom:14px;">Este taller ha sido diseñado para ser implementado en centros de secundaria y bachillerato. Si eres docente y quieres usarlo, el equipo puede proporcionarte materiales adicionales, la guía pedagógica completa y orientación para su implementación.</p>
+      <p class="reveal" style="font-size:.95rem;line-height:1.85;color:var(--dark-mid);">También nos interesa conocer vuestra experiencia si ya habéis realizado el taller: ¿cómo fue? ¿qué proyectos diseñó el alumnado? ¿qué funcionó y qué mejoraríais?</p>
+      <div class="contact-persons reveal" style="margin-top:32px;">
+        <div class="contact-person">
+          <div class="contact-person-name">Dr. Elisabeth Bolorinos Allard</div>
+          <div class="contact-person-role">Coordinadora del proyecto · Universidad de Bristol</div>
+          <div class="contact-person-detail">Investigadora en historia colonial española en Marruecos. Departamento de Historia, Universidad de Bristol, Reino Unido.</div>
+        </div>
+        <div class="contact-person">
+          <div class="contact-person-name">Cristina Luz García</div>
+          <div class="contact-person-role">Co-coordinadora · IES Las Veredillas</div>
+          <div class="contact-person-detail">Profesora de historia en IES Las Veredillas (Torrejón de Ardoz, Madrid). Responsable de la implementación del taller en el aula.</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal" data-delay="2">
+      <div class="intro-label" style="margin-bottom:28px;">Envíanos un mensaje</div>
+      <div id="form-success" style="display:none;background:#e8f5ee;border:1px solid #9fd4b8;color:#1e6b45;padding:16px 20px;margin-bottom:24px;font-size:.9rem;line-height:1.6;">✓ Tu mensaje se ha enviado correctamente. Nos pondremos en contacto contigo a la mayor brevedad.</div>
+      <form id="contact-form" action="https://formsubmit.co/cbolorinos@gmail.com" method="POST">
+        <!-- FormSubmit config -->
+        <input type="hidden" name="_subject" value="Nuevo mensaje — España en el norte de África">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="true">
+        <input type="hidden" name="_next" value="" id="form-next">
+        <!-- Honeypot (anti-spam): hidden from humans, bots fill it and get rejected -->
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <label class="form-label" for="cf-nombre">Nombre</label>
+        <input class="form-input" type="text" id="cf-nombre" name="Nombre" placeholder="Tu nombre completo" required>
+        <label class="form-label" for="cf-email">Correo electrónico</label>
+        <input class="form-input" type="email" id="cf-email" name="Correo" placeholder="tu@correo.es" required>
+        <label class="form-label" for="cf-centro">Centro educativo</label>
+        <input class="form-input" type="text" id="cf-centro" name="Centro educativo" placeholder="Nombre del centro (opcional)">
+        <label class="form-label" for="cf-mensaje">Mensaje</label>
+        <textarea class="form-textarea" id="cf-mensaje" name="Mensaje" placeholder="¿En qué podemos ayudarte? ¿Quieres implementar el taller? ¿Tienes feedback sobre una experiencia previa?" required></textarea>
+        <button class="form-btn" type="submit">Enviar mensaje</button>
+      </form>
+      <p class="form-note">Este formulario es solo de contacto. Nos pondremos en contacto contigo a la mayor brevedad.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-brand">El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</div><p class="footer-tagline">Proyecto desarrollado por la Universidad de Bristol e IES Las Veredillas.</p></div>
+    <div><div class="footer-nav-label">El Taller</div><ul class="footer-nav-links"><li><a href="s1.html">Sesión 1</a></li><li><a href="s2.html">Sesión 2</a></li><li><a href="s3.html">Sesión 3</a></li><li><a href="s4.html">Sesión 4</a></li></ul></div>
+    <div><div class="footer-nav-label">Más</div><ul class="footer-nav-links"><li><a href="index.html">Inicio</a></li><li><a href="about.html">El Proyecto</a></li><li><a href="resources.html">Recursos</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 El pasado colonial de España en el norte de África: Un proyecto de memoria histórica</span><div class="footer-geo-mark">España — Marruecos</div></div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+// Redirect back here after sending (works on any domain)
+document.getElementById('form-next').value = location.origin + location.pathname + '?enviado=1';
+// Show success message after redirect
+if (new URLSearchParams(location.search).has('enviado')) {
+  document.getElementById('form-success').style.display = 'block';
+  document.querySelector('.contact-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>
