@@ -44,10 +44,17 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link">Inicio</a></li>
-    <li><a href="s1.html" class="nav-link">Sesión 1</a></li>
-    <li><a href="s2.html" class="nav-link active">Sesión 2</a></li>
-    <li><a href="s3.html" class="nav-link">Sesión 3</a></li>
-    <li><a href="s4.html" class="nav-link">Sesión 4</a></li>
+    <li class="nav-dropdown">
+      <button type="button" class="nav-link nav-dropdown-toggle active">Sesiones
+        <svg class="caret" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <ul class="nav-dropdown-menu">
+        <li><a href="s1.html">1) Fuentes Primarias</a></li>
+        <li><a href="s2.html">2) Memoria Histórica</a></li>
+        <li><a href="s3.html">3) Taller en Grupos</a></li>
+        <li><a href="s4.html">4) Presentaciones</a></li>
+      </ul>
+    </li>
     <li><a href="about.html" class="nav-link">El Proyecto</a></li>
     <li><a href="resources.html" class="nav-link">Recursos</a></li>
     <li><a href="juegos.html" class="nav-link">Juegos</a></li>
@@ -64,57 +71,126 @@
 <div class="slider-wrapper" id="slider2">
 
   <div class="slide active" data-slide="0">
-    <div class="slide-bg" style="background-image:url('img/s2_slide1_bg.jpg');"></div>
+    <div class="slide-bg" style="background-image:url('img/s2_slide2_bg.jpg');"></div>
     <div class="slide-overlay"></div>
     <div class="slide-content">
       <div class="slide-tag">Sesión 02 · Introducción</div>
       <h2 class="slide-heading">Memoria histórica: el proyecto</h2>
-      <p class="slide-body">Soy Elisabeth Bolorinos Allard, profesora en la Universidad de Bristol. Creo que la historia tiene importancia más allá de los libros y las aulas. La historia tiene mucho que ver con la identidad, y vosotros deberíais participar en el proceso de construir la memoria histórica.</p>
-      <div class="slide-activity"><div class="slide-activity-label">En esta sesión</div><p>Analizaremos ejemplos de monumentos y objetos de memoria histórica. Discutiremos qué significa conmemorar y por qué algunos eventos se recuerdan y otros no. Y os presentaré el proyecto que vais a realizar.</p></div>
+      <p class="slide-body">La historia tiene importancia más allá de los libros y las aulas. Tiene mucho que ver con la identidad, con las formas en las que la sociedad se define de cara al futuro además del pasado. Por lo tanto, creemos que, además de los profesores, los políticos, etc., <strong>vosotros</strong> deberíais participar en el proceso de construir la memoria histórica.</p>
+      <div class="slide-activity"><div class="slide-activity-label">En esta sesión</div><p>En los siguientes minutos veremos una serie de fuentes primarias de la Guerra del Rif que comentaremos juntos: fotografías, artículos de prensa, entrevistas con testigos de la guerra, y una novela.</p></div>
+    </div>
+    <div class="slide-fg">
+
     </div>
   </div>
 
   <div class="slide" data-slide="1">
-    <div class="slide-bg" style="background-image:url('img/s2_slide2_bg.jpg');"></div>
+    <div class="slide-bg" style="background-image:url('img/default.jpg');"></div>
     <div class="slide-overlay heavy"></div>
     <div class="slide-content">
       <div class="slide-tag">Concepto clave</div>
       <h2 class="slide-heading">¿Qué es la memoria histórica?</h2>
       <p class="slide-body">La memoria histórica son las formas que tiene una sociedad de recordar acontecimientos o personas importantes en su historia. Puede ser una estatua, el nombre de las calles, una exposición, un congreso, un acto público. Influye en cómo una sociedad se entiende a sí misma y se relaciona con su presente y futuro.</p>
-      <div class="slide-activity"><div class="slide-activity-label">💬 Preguntas iniciales</div><p>¿Por qué es importante la memoria histórica? ¿Por qué conmemoramos algunos eventos/personajes y no otros? ¿Por qué se seleccionan algunos símbolos e imágenes para representar momentos históricos?</p></div>
+      <div class="slide-activity"><div class="slide-activity-label">💬 Preguntas iniciales</div><ul class="q-list"><li>¿Por qué es importante la memoria histórica?</li><li>¿Por qué conmemoramos algunos eventos/personajes y no otros?</li><li>¿Por qué se seleccionan algunos símbolos e imágenes para representar momentos históricos?</li></ul></div>
+    </div>
+    <div class="slide-fg">
+      <img class="slide-img" src="img/session2_slide3.png">
+      <div class="slide-img-caption">Leones del Congreso de los Diputados<br>Fundidos con el hierro de los canones de la Guerra de Africa de 1860</div>
     </div>
   </div>
 
   <div class="slide" data-slide="2">
-    <div class="slide-bg" style="background-image:url('img/s2_slide3_bg.jpg');"></div>
+    <div class="slide-bg" style="background-image:url('img/default.jpg');"></div>
     <div class="slide-overlay heavy"></div>
     <div class="slide-content">
-      <div class="slide-tag">Ejemplos cotidianos</div>
-      <h2 class="slide-heading">La memoria está en las calles</h2>
-      <p class="slide-body">Un azulejo en la calle de Tetuán, en el centro de Madrid, conmemora la victoria española en la Batalla de Tetuán de 1860. Una placa en el patio de un colegio de Alcorcón recuerda a la escritora Lucía Asué Abalo Bomio, antigua alumna.</p>
-      <div class="slide-quote">"¿Qué significa la palabra <em>conmemorar</em>? Marcar o celebrar acontecimientos por medio de monumentos, exposiciones, eventos."<cite>— Reflexión colectiva</cite></div>
+      <div class="slide-tag">La memoria está en las calles</div>
+      <h2 class="slide-heading">Un azulejo en la calle de Tetuán</h2>
+      <p class="slide-body">Este azulejo, en el centro de Madrid, conmemora la victoria española en la Batalla de Tetuán de 1860.</p>
+    </div>
+    <div class="slide-fg">
+      <img class="slide-img" src="img/session2_slide2.png">
     </div>
   </div>
 
   <div class="slide" data-slide="3">
-    <div class="slide-bg" style="background-image:url('img/s2_slide4_bg.jpg');"></div>
-    <div class="slide-overlay"></div>
+    <div class="slide-bg" style="background-image:url('img/default.jpg');"></div>
+    <div class="slide-overlay heavy"></div>
     <div class="slide-content">
-      <div class="slide-tag">Memoria oficial</div>
-      <h2 class="slide-heading">El 12 de octubre y Ortiz Echagüe</h2>
-      <p class="slide-body">El desfile militar del Día Nacional (12 de octubre) celebra el día en que Colón llegó a América. ¿Por qué se eligió este día como fiesta nacional? Un cartel anuncia una exposición del fotógrafo Fernando Ortiz Echagüe (1886–1980), quien sirvió en la guerra del norte de África.</p>
-      <div class="slide-activity"><div class="slide-activity-label">💬 Reflexión</div><p>¿Qué nos dice la elección del 12 de octubre como fiesta nacional sobre cómo España construye su identidad? ¿Cómo se relaciona con el colonialismo?</p></div>
+      <div class="slide-tag">La memoria está en las calles</div>
+      <h2 class="slide-heading">Placa en el patio de un colegio de Alcorcón</h2>
+      <p class="slide-body">Esta placa recuerda a la escritora Lucía Asué Abalo Bomio, antigua alumna.</p>
+    </div>
+    <div class="slide-fg">
+      <img class="slide-img" src="img/session2_slide4.png">
     </div>
   </div>
 
   <div class="slide" data-slide="4">
-    <div class="slide-bg" style="background-image:url('img/s2_slide7_bg.jpg');background-size:contain;background-repeat:no-repeat;background-color:#1a2830;"></div>
-    <div class="slide-overlay" style="background:linear-gradient(110deg,rgba(30,61,71,.93) 0%,rgba(30,61,71,.75) 100%);"></div>
+    <div class="slide-bg" style="background-image:url('img/default.jpg');"></div>
+    <div class="slide-overlay"></div>
     <div class="slide-content">
-      <div class="slide-tag">Ejemplo 1 · Granada, 1892</div>
+      <div class="slide-tag">La memoria está en las calles</div>
+      <h2 class="slide-heading">Fernando Ortiz Echagüe</h2>
+      <p class="slide-body">Este cartel anuncia una exposicion del fotografo  Fernando Ortiz Echagüe (1886-1980)., quien sirvió en la Guerra del Norte de África. Celebra su obra artistica.<br>
+      En 1903 Ortiz ingresó en la Academia de Ingenieros Militares de Guadalajara y tras ello sirvió en la Guerra del Norte de África. Obtuvo los carnés de piloto de globos y de aviación en 1911. En 1923 regresó a España y fundó Construcciones Aeronáuticas. En 1950 creó Seat, la primera industria española de fabricación de automóviles en cadena. Abandonó la fotografía tras perder la vista a los 87 años.
+    </div>
+    <div class="slide-fg">
+      <img class="slide-img" src="img/session2_slide6.png">
+    </div>
+  </div>
+
+  <div class="slide" data-slide="5">
+    <div class="slide-bg" style="background-image:url('img/default.jpg');"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Memoria oficial</div>
+      <h2 class="slide-heading">El desfile militar</h2>
+      <p class="slide-body">El desfile militar del Día Nacional (12 de octubre) celebra el día en que Colón llegó a América.
+      <div class="slide-activity"><div class="slide-activity-label">💬 Reflexión</div><ul class="q-list"><li>¿Por qué se eligió este día como fiesta nacional?</li><li>¿Cómo se relaciona con el colonialismo?</li></ul></div>
+    </div>
+    <div class="slide-fg">
+      <img class="slide-img" src="img/session2_slide5.png">
+    </div>
+  </div>
+
+  <div class="slide" data-slide="6">
+    <div class="slide-bg" style="background-image:url('img/session2_slide7.png');"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <h2 class="slide-heading">Memoria histórica</h2>
+      <div class="slide-activity"><div class="slide-activity-label"></div><ul class="q-list"><li>¿Porqué es importante la memoria histórica?</li><li>¿Qué significa la palabra conmemorar?</li><li>¿Por qué conmemoramos algunos eventos/personajes de la historia y no otros?</li><li>¿Por qué se seleccionan algunos símbolos/imágenes y no otros para representar esos momentos históricos?</li></ul></div>
+    </div>
+    <div class="slide-fg">
+
+    </div>
+  </div>
+
+  <div class="slide" data-slide="7">
+    <div class="slide-bg" style="background-image:url('img/default.jpg')"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Ejemplo 1</div>
       <h2 class="slide-heading">¿Qué monumento elegir?</h2>
-      <p class="slide-body">En 1892, el gobierno español convocó un concurso para conmemorar los 400 años de la llegada de Colón a América. El arquitecto Justo Gandarías propuso un arco con estilos aztecas, hispanoárabes y europeos — un monumento que habría incorporado las identidades diversas de España. Pero no fue elegido.</p>
-      <div class="slide-activity"><div class="slide-activity-label">💬 Debate</div><p>El monumento que ganó el premio fue mucho más convencional. ¿Por qué creéis que se eligió ese monumento y no el de Gandarías? ¿Qué dice eso sobre la identidad que España quería proyectar?</p></div>
+      <p class="slide-body">En 1892 el gobierno español organizó un concurso para elegir un monumento para conmemorar el aniversario de 400 años desde la llegada de Colón a América. Este monumento estaba destinado a la ciudad de Granada.
+      <br>Esta era una propuesta para el monumento, diseñada por un arquitecto llamado Justo Gandarias. Un arco casi tan grande como el Arco de Triumfo de Paris con una mezcla de estilos arquitectónicos y decorativos aztecas, hispanoárabes (ver los arcos), y europeos (renacentistas). Un monumento así hubiera incorporado las identidades diversas que forman la historia de España. Pero al final no eligieron este diseño.</p>
+    </div>
+    <div class="slide-fg">
+      <img class="slide-img" src="img/session2_slide8.png">
+      <div class="slide-img-caption">Arco monumental conmemorativo de la toma de Granada (proyecto de J. Gandarias)". La Ilustración Nacional tomo X, año XIII (31), 1892-11-06, p. 490</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="8">
+    <div class="slide-bg" style="background-image:url('img/default.jpg')"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Ejemplo 1</div>
+      <h2 class="slide-heading">¿Qué monumento elegir?</h2>
+      <p class="slide-body">El monumento que gano el premio fue el Monumento del IV Centenario.</p>
+      <div class="slide-activity"><div class="slide-activity-label">💬 Reflexión</div><ul class="q-list"><li>¿Porque creeis que se eligió este monumento y no el anterior?</li><li>¿Qué sentís al contemplar estos objetos o lugares de memoria histórica?</li><li>¿Veis aspectos importantes de vuestra identidad reflejada en ellos?</li></ul></div>
+    </div>
+    <div class="slide-fg">
+      <img class="slide-img" src="img/session2_slide9.png">
     </div>
   </div>
 
@@ -125,7 +201,7 @@
       <div class="slide-tag">El Proyecto</div>
       <h2 class="slide-heading">Diseñad un objeto de memoria histórica</h2>
       <p class="slide-body">En grupos, preparad una propuesta para un monumento, evento, exposición, festival u otro objeto de memoria histórica sobre el pasado colonial de España en el norte de África.</p>
-      <div class="slide-activity"><div class="slide-activity-label">📋 Justificad vuestro proyecto respondiendo:</div><p>¿Cuál es la historia que queréis contar? · ¿Cuáles son las identidades que queréis celebrar? · ¿Por qué habéis elegido esta forma de memoria histórica? · ¿Por qué habéis elegido estas imágenes o símbolos? · ¿Dónde estaría emplazado y por qué?</p></div>
+      <div class="slide-activity"><div class="slide-activity-label">📋 Justificad vuestro proyecto respondiendo:</div><ul class="q-list"><li>¿Cuál es la historia que queréis contar?</li><li>¿Cuáles son las identidades que queréis celebrar?</li><li>¿Por qué habéis elegido esta forma de memoria histórica?</li><li>¿Por qué habéis elegido estas imágenes o símbolos?</li><li>¿Dónde estaría emplazado y por qué?</li></ul></div>
     </div>
   </div>
 

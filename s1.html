@@ -44,10 +44,17 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-link">Inicio</a></li>
-    <li><a href="s1.html" class="nav-link active">Sesión 1</a></li>
-    <li><a href="s2.html" class="nav-link">Sesión 2</a></li>
-    <li><a href="s3.html" class="nav-link">Sesión 3</a></li>
-    <li><a href="s4.html" class="nav-link">Sesión 4</a></li>
+    <li class="nav-dropdown">
+      <button type="button" class="nav-link nav-dropdown-toggle active">Sesiones
+        <svg class="caret" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <ul class="nav-dropdown-menu">
+        <li><a href="s1.html">1) Fuentes Primarias</a></li>
+        <li><a href="s2.html">2) Memoria Histórica</a></li>
+        <li><a href="s3.html">3) Taller en Grupos</a></li>
+        <li><a href="s4.html">4) Presentaciones</a></li>
+      </ul>
+    </li>
     <li><a href="about.html" class="nav-link">El Proyecto</a></li>
     <li><a href="resources.html" class="nav-link">Recursos</a></li>
     <li><a href="juegos.html" class="nav-link">Juegos</a></li>
@@ -107,12 +114,13 @@
     <div class="slide-bg" style="background-image:url('img/default.jpg');"></div>
     <div class="slide-overlay heavy"></div>
     <div class="slide-content">
-      <div class="slide-tag">Fuente Primaria 1 & 2:</div>
+      <div class="slide-tag">Fuente Primaria 1:</div>
       <h2 class="slide-heading">Recuerdos de la campaña</h2>
       <div class="slide-quote">"Aquella convivencia de africanos y andaluces tan fructífera [nos otorga] una capacitación especial no igualada por pueblo alguno para mostrarnos verdaderos conductores espirituales de los marroquíes."</p><cite>— Tomás García Figueras, <em>África</em>, noviembre 1928</cite></div>
     </div>
     <div class="slide-fg">
       <img class="slide-img" src="img/picture1.png">
+      <div class="slide-img-caption">Fuente primaria 2<br>Revista de tropas coloniales, septiembre 1925</div>
     </div>
   </div>
 
@@ -120,14 +128,15 @@
     <div class="slide-bg" style="background-image:url('img/default.jpg');"></div>
     <div class="slide-overlay heavy"></div>
     <div class="slide-content">
-      <div class="slide-tag">Fuente Primaria 2 & 3:</div>
+      <div class="slide-tag">Fuente Primaria 3:</div>
       <h2 class="slide-heading">La Ruta</h2>
       <div class="slide-quote">"¿Por qué tenemos nosotros que luchar contra los moros? ¿Por qué tenemos que civilizarlos […] Nosotros, los de Castilla, de Andalucía, que no sabemos leer ni escribir. Tonterías. ¿Quién nos civiliza a nosotros? Nuestros pueblos no tienen escuelas, las casas son de adobes, dormimos con la ropa puesta, en un camastro de tres tablas en la cuadra, al lado de las mulas, para estar calientes. Comemos una cebolla y un mendrugo de pan al amanecer y nos vamos a trabajar en los campos de sol a sol […] Reventamos de hambre y de miseria. El amo nos roba y si nos quejamos, la guardia civil nos muele a palos.
 "</p><cite>— Arturo Barea, 1941</cite></div>
-      <div class="slide-activity"><div class="slide-activity-label">💬 Reflexión</div><p>Mirad como cuestiona el concepto de civilización. ¿Según él, es España mas civilizada que marruecos? ¿Porqué o porqué no? <br>Observar y comentar el uso de la palabra ‘moro’ y notar que en esa época, la palabra no tenia tanto significado peyorativo.</p></div>
+      <div class="slide-activity"><div class="slide-activity-label">💬 Reflexión</div><p class="q-intro">Mirad como cuestiona el concepto de civilización.</p><ul class="q-list"><li>¿Según él, es España más civilizada que Marruecos?</li><li>¿Por qué o por qué no?</li></ul><p class="q-note">Observar y comentar el uso de la palabra ‘moro’ y notar que en esa época, la palabra no tenía tanto significado peyorativo.</p></div>
     </div>
     <div class="slide-fg">
       <img class="slide-img" src="img/picture2.png">
+      <div class="slide-img-caption">Fuente primaria 2<br>Revista de tropas coloniales, septiembre 1925</div>
     </div>
   </div>
 
@@ -136,8 +145,8 @@
     <div class="slide-overlay heavy"></div>
     <div class="slide-content">
       <div class="slide-tag">Fuente Primaria 4:</div>
-      <h2 class="slide-heading">El desastre de Annual: julio 1921</h2>
-      <p class="slide-body">Entrevistas con testigos e historiadores en el documental "El laberinto marroquí" (2007). Testimonio de un veterano marroquí hablando de una de las grandes tragedias de la guerra, el Desastre de Annual.</p>
+      <h2 class="slide-heading sm">El desastre de Annual: julio 1921</h2>
+      <p class="slide-body">Entrevistas con testigos e historiadores en el documental "El laberinto marroquí" (2007).</p>
       <div class="slide-video">
         <iframe src="https://www.youtube.com/embed/IEqLEwOo5Ys?start=1172" title="El laberinto marroquí (2007) — Testimonio sobre el Desastre de Annual" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
@@ -150,7 +159,7 @@
     <div class="slide-content">
       <div class="slide-tag">Fuente Primaria 4:</div>
       <h2 class="slide-heading">El desastre de Annual: julio 1921</h2>
-      <div class="slide-activity"><div class="slide-activity-label">💬 Reflexión</div><p>¿Que perspectiva tienen los testigos de a guerra? ¿Creéis que el significado negativo que tiene la palabra moro ahora se deriva de alguna manera de esta historia colonial?</p></div>
+      <div class="slide-activity"><div class="slide-activity-label">💬 Reflexión</div><ul class="q-list"><li>¿Qué perspectiva tienen los testigos de la guerra?</li><li>¿Creéis que el significado negativo que tiene la palabra moro ahora se deriva de alguna manera de esta historia colonial?</li></ul></div>
     </div>
     <div class="slide-fg">
       <img class="slide-img" src="img/Picture5.jpg">
@@ -177,7 +186,7 @@ Yo decía que Zeluán era el prólogo, Monte Arruit es el primer acto de la trag
     <div class="slide-content">
       <div class="slide-tag">Fuente Primaria 6:</div>
       <h2 class="slide-heading">'El Moro Amigo' Echea, 1921</h2>
-      <div class="slide-activity"><div class="slide-activity-label">🔍 Análisis de imagen</div><p>¿El grabado de Echea presenta una imagen de amistad, o de otra cosa?<br>Recordar la idea de hermanamiento, de una relación cercana. ¿Qué impacto creéis que tuvo Annual sobre ese discurso?<br>¿Qué impresión os causa cada una de estas fuentes? ¿Cómo están relacionadas?</p></div>
+      <div class="slide-activity"><div class="slide-activity-label">🔍 Análisis de imagen</div><ul class="q-list"><li>¿El grabado de Echea presenta una imagen de amistad, o de otra cosa?</li><li>Recordar la idea de hermanamiento, de una relación cercana. ¿Qué impacto creéis que tuvo Annual sobre ese discurso?</li><li>¿Qué impresión os causa cada una de estas fuentes? ¿Cómo están relacionadas?</li></ul></div>
     </div>
     <div class="slide-fg">
       <img class="slide-img" src="img/picture4.png">
@@ -188,7 +197,7 @@ Yo decía que Zeluán era el prólogo, Monte Arruit es el primer acto de la trag
     <div class="slide-overlay heavy"></div>
     <div class="slide-content">
       <div class="slide-tag">Fuente Primaria 7:</div>
-      <h2 class="slide-heading">El uso de armas químicas contra la población civil en el Rif</h2>
+      <h2 class="slide-heading sm">El uso de armas químicas contra la población civil en el Rif</h2>
       <p class="slide-body">Entrevistas con testigos.</p>
       <div class="slide-video">
         <iframe src="https://www.youtube.com/embed/IEqLEwOo5Ys?start=1623" title="El laberinto marroquí (2007) — Testimonio sobre el Desastre de Annual" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
